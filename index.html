@@ -88,9 +88,9 @@
     <!-- Assets for images / models can be preloaded here -->
     <a-assets>
       <!-- Replace these placeholders with your own images -->
-      <img id="img-about" src="C:\Users\P3005018\OneDrive - Corporate\Personal\AI PM\img\AI_PM.png?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=2d7b9357d1b8eb8af0c6b4b8ecb3b7a9" crossorigin="anonymous">
-      <img id="img-case" src="C:\Users\P3005018\OneDrive - Corporate\Personal\AI PM\img\AI_PM.png?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=4b4d3f2b1d5c8c2f729a7b4ea8f3e3d9" crossorigin="anonymous">
-      <img id="img-comic" src="C:\Users\P3005018\OneDrive - Corporate\Personal\AI PM\img\AI_PM.png?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=6f3d3b7a9a4f8f3c9f2b8c5d5e6f7a1b" crossorigin="anonymous">
+      <img id="img-about" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=2d7b9357d1b8eb8af0c6b4b8ecb3b7a9" crossorigin="anonymous">
+      <img id="img-case" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=4b4d3f2b1d5c8c2f729a7b4ea8f3e3d9" crossorigin="anonymous">
+      <img id="img-comic" src="https://images.unsplash.com/photo-1526318472351-c75fcf070bd4?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=6f3d3b7a9a4f8f3c9f2b8c5d5e6f7a1b" crossorigin="anonymous">
     </a-assets>
 
     <!-- Lights & environment -->
@@ -293,139 +293,121 @@
 </style>
 
 <!-- 3️⃣ 3D Bookshelf Script -->
-<div id="bookModal"><iframe></iframe></div>
+<script>
+  const books = [
+    ["The AI PM Diaries - MVP", "https://g.co/gemini/share/6d40c85b519e"],
+    ["The Ever-Expanding Horizon", "https://g.co/gemini/share/eab63c35d766"],
+    ["99% Accuracy, 0% Adoption", "https://g.co/gemini/share/d6a7388e02d7"],
+    ["Hello, I’m The Data (and I Have Issues)", "https://g.co/gemini/share/de6cbdfa3fa8"],
+    ["The A/B Test That Became A–Z", "https://g.co/gemini/share/63eb6d03df5a"],
+    ["Explain It Like I’m a Regulator", "https://g.co/gemini/share/b49f85c853e1"],
+    ["Prompt Injection Potluck", "https://g.co/gemini/share/a05d20888b74"],
+    ["Free Trial to Production (FTTP)", "https://g.co/gemini/share/17e787ac48a5"],
+    ["The Drift", "https://g.co/gemini/share/a2d71a5e2b2e"],
+    ["The OKR Bermuda Triangle", "https://g.co/gemini/share/2977b1a03727"],
+    ["Ethics Board vs. Board Ethics", "https://g.co/gemini/share/967538b4a886"],
+    ["Feature-Creep vs. Value-Chop", "https://g.co/gemini/share/20c2102eda4f"],
+    ["GDPR Peekaboo", "https://g.co/gemini/share/7ce7d68cd892"],
+    ["Vendor Promise, Integration Purgatory", "https://g.co/gemini/share/4d20a65f3042"],
+    ["GPU Budget vs. Coffee Budget", "https://g.co/gemini/share/c940840abac1"]
+  ];
 
-    <script type="module">
-      import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
-      import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
-      import { FontLoader } from "https://unpkg.com/three@0.160.0/examples/jsm/loaders/FontLoader.js";
-      import { TextGeometry } from "https://unpkg.com/three@0.160.0/examples/jsm/geometries/TextGeometry.js";
+  // --- Setup Scene ---
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight * 0.9);
+  document.getElementById("bookshelf").appendChild(renderer.domElement);
 
-      const books = [
-        ["The AI PM Diaries - MVP", "https://g.co/gemini/share/6d40c85b519e"],
-        ["The Ever-Expanding Horizon", "https://g.co/gemini/share/eab63c35d766"],
-        ["99% Accuracy, 0% Adoption", "https://g.co/gemini/share/d6a7388e02d7"],
-        ["Hello, I’m The Data (and I Have Issues)", "https://g.co/gemini/share/de6cbdfa3fa8"],
-        ["The A/B Test That Became A–Z", "https://g.co/gemini/share/63eb6d03df5a"],
-        ["Explain It Like I’m a Regulator", "https://g.co/gemini/share/b49f85c853e1"],
-        ["Prompt Injection Potluck", "https://g.co/gemini/share/a05d20888b74"],
-        ["Free Trial to Production (FTTP)", "https://g.co/gemini/share/17e787ac48a5"],
-        ["The Drift", "https://g.co/gemini/share/a2d71a5e2b2e"],
-        ["The OKR Bermuda Triangle", "https://g.co/gemini/share/2977b1a03727"],
-        ["Ethics Board vs. Board Ethics", "https://g.co/gemini/share/967538b4a886"],
-        ["Feature-Creep vs. Value-Chop", "https://g.co/gemini/share/20c2102eda4f"],
-        ["GDPR Peekaboo", "https://g.co/gemini/share/7ce7d68cd892"],
-        ["Vendor Promise, Integration Purgatory", "https://g.co/gemini/share/4d20a65f3042"],
-        ["GPU Budget vs. Coffee Budget", "https://g.co/gemini/share/c940840abac1"]
-      ];
+  // --- Lighting & Shelf ---
+  const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+  scene.add(ambient);
+  const light = new THREE.PointLight(0xffffff, 1);
+  light.position.set(10, 10, 10);
+  scene.add(light);
 
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(
-        70,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-      );
-      const renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      document.body.appendChild(renderer.domElement);
+  const shelfGeometry = new THREE.BoxGeometry(20, 0.5, 3);
+  const shelfMaterial = new THREE.MeshStandardMaterial({ color: 0x7b5e3b, roughness: 0.8 });
+  const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
+  shelf.position.y = -1.5;
+  scene.add(shelf);
 
-      // Lights
-      const ambient = new THREE.AmbientLight(0xffffff, 0.8);
-      const point = new THREE.PointLight(0xffffff, 1);
-      point.position.set(10, 10, 10);
-      scene.add(ambient, point);
+  // --- Camera & Controls ---
+  camera.position.z = 12;
+  camera.position.y = 2;
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-      // Shelf
-      const shelfGeometry = new THREE.BoxGeometry(20, 0.5, 3);
-      const shelfMaterial = new THREE.MeshStandardMaterial({
-        color: 0x7b5e3b,
-        roughness: 0.8,
+  // --- Add Books ---
+  const loader = new THREE.FontLoader();
+  loader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json", function (font) {
+    const bookWidth = 0.6;
+    const bookHeight = 3;
+    const startX = -6;
+    const spacing = 0.8;
+
+    books.forEach((book, i) => {
+      const geometry = new THREE.BoxGeometry(bookWidth, bookHeight, 1.2);
+      const material = new THREE.MeshStandardMaterial({ color: 0x3366cc + (i * 2000) });
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.x = startX + i * spacing;
+      mesh.position.y = 0;
+      mesh.position.z = 0;
+      mesh.userData = { url: book[1] };
+      scene.add(mesh);
+
+      // Book Title Text
+      const textGeo = new THREE.TextGeometry(book[0], {
+        font: font,
+        size: 0.15,
+        height: 0.02,
       });
-      const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
-      shelf.position.y = -1.5;
-      scene.add(shelf);
+      const textMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const textMesh = new THREE.Mesh(textGeo, textMat);
+      textMesh.position.set(mesh.position.x - 0.25, 1.6, 0.6);
+      textMesh.rotation.y = Math.PI / 2;
+      scene.add(textMesh);
+    });
+  });
 
-      // Camera
-      camera.position.z = 12;
-      camera.position.y = 2;
-      const controls = new OrbitControls(camera, renderer.domElement);
+  // --- Interactivity (Click Book) ---
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  window.addEventListener("click", (e) => {
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+    if (intersects.length > 0 && intersects[0].object.userData.url) {
+      openBook(intersects[0].object.userData.url);
+    }
+  });
 
-      // Books + Labels
-      const loader = new FontLoader();
-      loader.load(
-        "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
-        (font) => {
-          const bookWidth = 0.6;
-          const bookHeight = 3;
-          const startX = -6;
-          const spacing = 0.8;
+  // --- Render Loop ---
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+  animate();
 
-          books.forEach((book, i) => {
-            const geometry = new THREE.BoxGeometry(bookWidth, bookHeight, 1.2);
-            const material = new THREE.MeshStandardMaterial({
-              color: new THREE.Color(`hsl(${(i * 30) % 360}, 70%, 50%)`),
-            });
-            const mesh = new THREE.Mesh(geometry, material);
-            mesh.position.x = startX + i * spacing;
-            mesh.position.y = 0;
-            mesh.userData = { url: book[1] };
-            scene.add(mesh);
+  // --- Popup ---
+  const modal = document.createElement("div");
+  modal.id = "bookModal";
+  modal.innerHTML = '<iframe></iframe>';
+  document.body.appendChild(modal);
 
-            const textGeo = new TextGeometry(book[0], {
-              font: font,
-              size: 0.15,
-              height: 0.02,
-            });
-            const textMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-            const textMesh = new THREE.Mesh(textGeo, textMat);
-            textMesh.position.set(mesh.position.x - 0.25, 1.6, 0.6);
-            textMesh.rotation.y = Math.PI / 2;
-            scene.add(textMesh);
-          });
-        }
-      );
+  function openBook(url) {
+    modal.style.display = "block";
+    modal.querySelector("iframe").src = url;
+  }
+  modal.addEventListener("click", () => {
+    modal.style.display = "none";
+    modal.querySelector("iframe").src = "";
+  });
+</script>
 
-      // Interaction
-      const raycaster = new THREE.Raycaster();
-      const mouse = new THREE.Vector2();
-
-      window.addEventListener("click", (e) => {
-        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(scene.children);
-        if (intersects.length > 0 && intersects[0].object.userData.url) {
-          openBook(intersects[0].object.userData.url);
-        }
-      });
-
-      // Popup logic
-      const modal = document.getElementById("bookModal");
-      function openBook(url) {
-        modal.style.display = "block";
-        modal.querySelector("iframe").src = url;
-      }
-      modal.addEventListener("click", () => {
-        modal.style.display = "none";
-        modal.querySelector("iframe").src = "";
-      });
-
-      // Render loop
-      function animate() {
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
-      }
-      animate();
-
-      window.addEventListener("resize", () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-    </script>
 
 
 
 </body>
 </html>
+
