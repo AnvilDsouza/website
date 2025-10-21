@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Director’s Office | Anvil Dsouza</title>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+    <style>
+      body { margin: 0; overflow: hidden; }
+      #speech {
+        position: absolute; bottom: 20px; width: 100%;
+        text-align: center; color: white; font-family: 'Segoe UI', sans-serif;
+        font-size: 1.2em; background: rgba(0,0,0,0.5); padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <a-scene background="color: #1a1a1a">
+
+      <!-- Office environment -->
+      <a-entity environment="preset: arches; dressingAmount: 0.3; lighting: point; groundColor: #444;"></a-entity>
+
+      <!-- Desk -->
+      <a-box position="0 0.5 -2" width="3" height="1" depth="1.5" color="#654321"></a-box>
+
+      <!-- AI PM Character -->
+      <a-entity id="aipm" gltf-model="https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/AnimatedCube/glTF/AnimatedCube.gltf"
+        position="0 1.2 -2" scale="0.7 0.7 0.7" animation-mixer>
+      </a-entity>
+
+      <!-- Speech points -->
+      <a-entity id="aboutHotspot" geometry="primitive: sphere; radius: 0.2"
+        material="color: #00ccff; emissive: #00ccff; opacity: 0.8"
+        position="-2 1.5 -3" class="clickable"
+        event-set__mouseenter="_event: mouseenter; scale: 1.2 1.2 1.2"
+        event-set__mouseleave="_event: mouseleave; scale: 1 1 1">
+      </a-entity>
+      <a-text value="About Me" position="-2 1.9 -3" align="center" color="#fff"></a-text>
+
+      <a-entity id="awardsHotspot" geometry="primitive: sphere; radius: 0.2"
+        material="color: #ff9933; emissive: #ff9933; opacity: 0.8"
+        position="0 1.5 -4" class="clickable"
+        event-set__mouseenter="_event: mouseenter; scale: 1.2 1.2 1.2"
+        event-set__mouseleave="_event: mouseleave; scale: 1 1 1">
+      </a-entity>
+      <a-text value="Awards" position="0 1.9 -4" align="center" color="#fff"></a-text>
+
+      <a-entity id="bookshelfHotspot" geometry="primitive: sphere; radius: 0.2"
+        material="color: #66ff66; emissive: #66ff66; opacity: 0.8"
+        position="2 1.5 -3" class="clickable"
+        event-set__mouseenter="_event: mouseenter; scale: 1.2 1.2 1.2"
+        event-set__mouseleave="_event: mouseleave; scale: 1 1 1">
+      </a-entity>
+      <a-text value="Bookshelf" position="2 1.9 -3" align="center" color="#fff"></a-text>
+
+      <!-- Camera -->
+      <a-entity camera look-controls position="0 1.6 0"></a-entity>
+    </a-scene>
+
+    <!-- Speech display -->
+    <div id="speech"></div>
+
+    <script>
+      const speech = document.getElementById('speech');
+      const dialogue = [
+        "👋 Welcome to the Virtual Office of Anvil Dsouza — Director, AI & Product Strategy.",
+        "I’m the AI PM — your virtual guide and storyteller.",
+        "Let me show you around! Over here, you can explore more about Anvil’s journey, achievements, and creative work."
+      ];
+      let i = 0;
+
+      function showSpeech() {
+        if (i < dialogue.length) {
+          speech.innerText = dialogue[i++];
+          setTimeout(showSpeech, 4000);
+        }
+      }
+      showSpeech();
+
+      document.querySelector('#aboutHotspot').addEventListener('click', () => {
+        speech.innerHTML = "This section tells you about Anvil’s professional journey. Visit <a href='https://linkedin.com/in/anvildsouza' target='_blank'>LinkedIn</a> or <a href='yourCV.pdf' target='_blank'>download the CV</a>.";
+      });
+
+      document.querySelector('#awardsHotspot').addEventListener('click', () => {
+        speech.innerHTML = "These awards highlight key projects and recognitions. Click the trophies to explore each story.";
+      });
+
+      document.querySelector('#bookshelfHotspot').addEventListener('click', () => {
+        speech.innerHTML = "This bookshelf showcases Anvil’s creative and thought leadership work — including the AI PM Newsletter & Comics.";
+      });
+    </script>
+  </body>
+</html>
