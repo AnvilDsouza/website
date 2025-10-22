@@ -9,7 +9,7 @@
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   
   <style>
-    html,body { height:100%; margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; background:#111;}
+    html,body { height:100%; margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; font-weight:bold; background:#111;}
     #ui-speech {
       position: fixed;
       left: 50%;
@@ -84,20 +84,20 @@
     </a-plane> -->
 
     <!-- Three interactive guide spheres (hotspots). They are slightly emissive and pulse -->
-    <a-sphere id="hot_about" class="nav" position="-2 1.5 -3.5" radius="0.18" color="#00b5ff" emissive="#00b5ff" emissiveIntensity="0.7">
+    <a-sphere id="hot_about" class="nav" position="-6 -0.5 -3.5" radius="0.18" color="#00b5ff" emissive="#00b5ff" emissiveIntensity="0.7">
       <a-animation attribute="scale" dur="1200" to="1.2 1.2 1.2" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere>
-    <a-text value="About" position="-2 2.5 -3.5" color="#fff" align="center"></a-text>
+    <a-text value="About" position="-6 0 -3.5" color="#fff" align="center"></a-text>
 
-    <a-sphere id="hot_awards" class="nav" position="0 1.5 -4.2" radius="0.18" color="#ffb300" emissive="#ffb300" emissiveIntensity="0.6">
+    <a-sphere id="hot_awards" class="nav" position="-5 -0.5 -4.2" radius="0.18" color="#ffb300" emissive="#ffb300" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1400" to="1.18 1.18 1.18" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere>
-    <a-text value="Awards" position="0 2.5 -4.2" color="#fff" align="center"></a-text>
+    <a-text value="Achievements" position="-5 0 -4.2" color="#fff" align="center"></a-text>
 
-    <a-sphere id="hot_bookshelf" class="nav" position="2 1.5 -3.5" radius="0.18" color="#7be57a" emissive="#7be57a" emissiveIntensity="0.6">
+    <a-sphere id="hot_bookshelf" class="nav" position="-4 0.5 -3.5" radius="0.18" color="#7be57a" emissive="#7be57a" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1100" to="1.15 1.15 1.15" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere>
-    <a-text value="Bookshelf" position="2 2.5 -3.5" color="#fff" align="center"></a-text>
+    <a-text value="Contributions" position="-4 0 -3.5" color="#fff" align="center"></a-text>
 
     <!-- Camera + cursor: mouse + WASD support -->
     <a-entity id="rig" position="0 1.6 2">
@@ -116,11 +116,6 @@
       msg.voice = speechSynthesis.getVoices().find(v => v.lang.includes('en'));
       speechSynthesis.speak(msg);
     }
-
-    document. = () => {
-      speak("Welcome to my virtual office. I’m your AI PM guide — let's explore together.");
-    }
-
     
     const speechEl = document.getElementById('ui-speech');
     let step = 0;
