@@ -88,14 +88,14 @@
       <a-asset-item id="golden_trophy" src="golden_trophy.glb"></a-asset-item>
       <a-asset-item id="book" src="book.glb"></a-asset-item>
     </a-assets>
-    <a-text value="About" position="-5 0 -3" color="#fff" align="center"></a-text>
-    <a-entity id="hot_about" gltf-model="#laptop" position="-7 -3 -7" scale="1 1 1" rotation="0 90 0"></a-entity>
+    <a-text id="hot_about" value="About" position="-5 0 -3" color="#fff" align="center"></a-text>
+    <a-entity gltf-model="#laptop" position="-7 -3 -7" scale="1 1 1" rotation="0 90 0"></a-entity>
     
-    <a-text value="Achievements" position="-2.5 2.5 -3.5" color="#fff" align="center"></a-text>
-    <a-entity id="hot_achievements" gltf-model="#golden_trophy" position="-200 -1 -450"></a-entity>
+    <a-text id="hot_achievements" value="Achievements" position="-2.5 2.5 -3.5" color="#fff" align="center"></a-text>
+    <a-entity gltf-model="#golden_trophy" position="-200 -1 -450"></a-entity>
 
-    <a-text value="Contributions" position="-9 -3 -3.5" rotation="0 90 0" color="#fff" align="center"></a-text> 
-    <a-entity id="hot_contributions" gltf-model="#book" position="-6 -1 -4" scale="8 8 8"></a-entity>
+    <a-text id="hot_contributions" value="Contributions" position="-9 -3 -3.5" rotation="0 90 0" color="#fff" align="center"></a-text> 
+    <a-entity gltf-model="#book" position="-10 -4 -4" scale="8 8 8"></a-entity>
 
     <!-- Three interactive guide spheres (hotspots). They are slightly emissive and pulse 
     <a-sphere id="hot_about" class="nav" position="-6 -1 -3" radius="0.18" color="#00b5ff" emissive="#00b5ff" emissiveIntensity="0.7">
