@@ -84,11 +84,13 @@
     </a-plane> -->
 
     <a-assets>
-      <a-asset-item id="laptop" src="laptop.glb" position="-6 -1 -3"></a-asset-item>
-      <a-asset-item id="laptop" src="golden_trophy.glb" position="-4.5 -1 -3.5"></a-asset-item>
-      <a-asset-item id="laptop" src="book.glb" position="-3 -1 -4"></a-asset-item>
-      
+      <a-asset-item id="laptop" src="laptop.glb"></a-asset-item>
+      <a-asset-item id="golden_trophy" src="golden_trophy.glb"></a-asset-item>
+      <a-asset-item id="book" src="book.glb"></a-asset-item>
     </a-assets>
+    <a-entity gltf-model="#laptop" position="-6 -1 -3"></a-entity>
+    <a-entity gltf-model="#golden_trophy" position="-4.5 -1 -3.5"></a-entity>
+    <a-entity gltf-model="#book" position="-3 -1 -4"></a-entity>
 
     <!-- Three interactive guide spheres (hotspots). They are slightly emissive and pulse -->
     <a-sphere id="hot_about" class="nav" position="-6 -1 -3" radius="0.18" color="#00b5ff" emissive="#00b5ff" emissiveIntensity="0.7">
