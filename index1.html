@@ -84,20 +84,20 @@
     </a-plane> -->
 
     <!-- Three interactive guide spheres (hotspots). They are slightly emissive and pulse -->
-    <a-sphere id="hot_about" class="nav" position="-6 -0.5 -3.5" radius="0.18" color="#00b5ff" emissive="#00b5ff" emissiveIntensity="0.7">
+    <a-sphere id="hot_about" class="nav" position="-6 -1 -3" radius="0.18" color="#00b5ff" emissive="#00b5ff" emissiveIntensity="0.7">
       <a-animation attribute="scale" dur="1200" to="1.2 1.2 1.2" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere>
-    <a-text value="About" position="-6 0 -3.5" color="#fff" align="center"></a-text>
+    <a-text value="About" position="-6 -0.5 -3" color="#fff" align="center"></a-text>
 
-    <a-sphere id="hot_awards" class="nav" position="-5 -0.5 -4.2" radius="0.18" color="#ffb300" emissive="#ffb300" emissiveIntensity="0.6">
+    <a-sphere id="hot_awards" class="nav" position="-4.5 -1 -3.5" radius="0.18" color="#ffb300" emissive="#ffb300" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1400" to="1.18 1.18 1.18" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere>
-    <a-text value="Achievements" position="-5 0 -4.2" color="#fff" align="center"></a-text>
+    <a-text value="Achievements" position="-4.5 -0.5 -3.5" color="#fff" align="center"></a-text>
 
-    <a-sphere id="hot_bookshelf" class="nav" position="-4 0.5 -3.5" radius="0.18" color="#7be57a" emissive="#7be57a" emissiveIntensity="0.6">
+    <a-sphere id="hot_bookshelf" class="nav" position="-3 -1 -4" radius="0.18" color="#7be57a" emissive="#7be57a" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1100" to="1.15 1.15 1.15" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere>
-    <a-text value="Contributions" position="-4 0 -3.5" color="#fff" align="center"></a-text>
+    <a-text value="Contributions" position="-3 -0.5 -4" color="#fff" align="center"></a-text>
 
     <!-- Camera + cursor: mouse + WASD support -->
     <a-entity id="rig" position="0 1.6 2">
@@ -121,7 +121,7 @@
     let step = 0;
 
     const dialogues = [
-      "👋 Hello — welcome to Anvil D'Souza's virtual director's office. I'm the AI PM — your guide.",
+      "Hello — welcome to Anvil D'Souza's virtual director's office. I'm the AI PM — your guide.",
       "I lead product & AI teams that build regulated, revenue-first systems. Let me show you three key areas.",
       "To the left: About — learn about Anvil and download the CV. In the middle: Awards — explore project recognitions. To the right: Bookshelf — read newsletters & comics."
     ];
@@ -132,7 +132,9 @@
       speak(dialogues[i]);
       setTimeout(() => runDialogue(i+1), 4200);
     }
-    runDialogue();
+    window.onload = () => {
+      runDialogue();
+    };
 
     // Modal handling
     const linkModal = document.getElementById('linkModal');
