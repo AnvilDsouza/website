@@ -172,12 +172,20 @@
 
     about.addEventListener('click', () => {
       // change speech text and open LinkedIn/CV choices via modal links
-      speechEl.innerHTML = "About: Visit my <a href='https://www.linkedin.com/in/anvildsouza' target='_blank' style='color:#9fdcff'>LinkedIn</a> or <a href='#' id='cvLink' style='color:#9fdcff'>download my CV</a>.";
+      speechEl.innerHTML = "About: Visit my <a href='#' id='linkedIn' target='_blank' style='color:#9fdcff'>LinkedIn</a> or <a href='#' id='cvLink' style='color:#9fdcff'>download my CV</a>.";
+      // wire CV link to modal — set your CV URL below
+      setTimeout(() => {
+        const cv = document.getElementById('linkedIn');
+        if (cv) {
+          cv.addEventListener('click', (e) => { e.preventDefault(); openModal('LinkedIn Profile', 'https://www.linkedin.com/in/anvildsouza'); });
+        }
+      }, 80);
+      
       // wire CV link to modal — set your CV URL below
       setTimeout(() => {
         const cv = document.getElementById('cvLink');
         if (cv) {
-          cv.addEventListener('click', (e) => { e.preventDefault(); openModal('Download CV', 'https://example.com/Anvil_CV_OnePage.pdf'); });
+          cv.addEventListener('click', (e) => { e.preventDefault(); openModal('Download CV', 'CV Anvil DSouza.pdf'); });
         }
       }, 80);
     });
@@ -185,13 +193,13 @@
     awards.addEventListener('click', () => {
       speechEl.innerHTML = "Awards: Click trophies (coming soon) to view project pages and award details. For now, open the awards overview.";
       // open a placeholder awards page
-      setTimeout(() => openModal('Awards & Achievements', 'https://example.com/awards.html'), 900);
+      setTimeout(() => openModal('AI PM Newsletter', 'https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7327570817578352640'), 900);
     });
 
     bookshelf.addEventListener('click', () => {
       speechEl.innerHTML = "Bookshelf: Explore the AI PM Newsletter and AI PM Comics. Opening the bookshelf...";
       // connect to the bookshelf page you already host (replace below with your shelf host)
-      setTimeout(() => openModal('AI PM Bookshelf', 'https://anvildsouza.github.io/website/bookshelf.html'), 900);
+      setTimeout(() => openModal('AI PM Series', 'https://gemini.google.com/share/233d69d38d80'), 900);
     });
 
     // Basic accessibility: close modal with Escape
