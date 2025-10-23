@@ -163,9 +163,8 @@
       card.setAttribute('tabindex', '0');
       card.dataset.title = title;
       card.dataset.url = url;
-      card.background.image.url = img;
-      card.babkground.size = "contain";
-      card.background.repeat = "no-repeat";
+      card.dataset.background = img;
+      
       // cover
       const cover = makeCoverElement(title, i, u);
       // meta
@@ -178,7 +177,7 @@
       card.appendChild(meta);
 
       // click handler
-      card.addEventListener('click', () => openPreview(title, url, i));
+      card.addEventListener('click', () => openPreview(title, url, i, u));
       card.addEventListener('keypress', (ev) => { if(ev.key === 'Enter' || ev.key === ' ') openPreview(title,url,i); });
 
       grid.appendChild(card);
@@ -194,9 +193,9 @@
     const previewTitle = document.getElementById('previewTitle');
     const previewDesc = document.getElementById('previewDesc');
 
-    function openPreview(title, url, idx){
+    function openPreview(title, url, idx, img){
       // populate preview (procedural large cover)
-      preview.style.background = window.getComputedStyle(document.querySelector('.c-'+((idx%15)+1))).backgroundImage;
+      preview.style.background = img;
       previewTitle.innerText = title;
       previewDesc.innerText = "A short preview of '"+title+"'. Click Open in Gemini to view the full comic.";
       detailTitle.innerText = title;
