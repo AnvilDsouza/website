@@ -62,51 +62,29 @@
     <a-entity light="type: ambient; intensity: 0.9"></a-entity>
     <a-entity light="type: directional; intensity: 0.6" position="-1 3 2"></a-entity>
 
-    <!-- Floor and back wall for an office vibe 
-    <a-plane rotation="-90 0 0" width="40" height="40" color="#1d1f22"></a-plane>
-    <a-box position="0 1.6 -6" width="10" height="3.6" depth="0.3" color="#2b3136"></a-box> -->
-
-    <!-- Desk 
-    <a-box position="0 0.85 -3" width="3.6" height="0.8" depth="1.4" color="#5b3a21"></a-box>
-    <!-- laptop placeholder <a-box position="-1.5 0.4 -2.1" width="0.3" height="0.3" depth="0.3" color="#999"></a-box>  -->
-
-    <!-- Chair and simple seated avatar (group of primitives to avoid external models) 
-    <a-cylinder position="0 0.4 -2.9" radius="0.35" height="0.1" color="#222"></a-cylinder>
-    <!-- body 
-    <a-sphere id="head" position="0 1.45 -2.6" radius="0.18" color="#f1c27d"></a-sphere>
-    <a-box id="torso" position="0 1.05 -2.6" width="0.5" height="0.6" depth="0.3" color="#1a73e8"></a-box>
-    <!-- subtle idle animation on the head 
-    <a-animation attribute="rotation" to="0 6 0" dur="2200" direction="alternate" repeat="indefinite" easing="ease-in-out"></a-animation> -->
-
-    <!-- Nameplate 
-    <a-plane position="0 0.42 -2.1" width="0.9" height="0.18" color="#0b0b0b" rotation="-10 0 0">
-      <a-text value="Anvil D'Souza — Director, AI & Product" color="#fff" align="center" width="1.6" position="0 0 0.01"></a-text>
-    </a-plane> -->
-
     <a-assets>
       <a-asset-item id="laptop" src="laptop.glb"></a-asset-item>
       <a-asset-item id="golden_trophy" src="golden_trophy.glb"></a-asset-item>
       <a-asset-item id="book" src="book.glb"></a-asset-item>
     </a-assets>
-    <a-text id="hot_about" value="About" position="-5 0 -3" color="#fff" align="center"></a-text>
-    <a-entity gltf-model="#laptop" position="-7 -3 -7" scale="1 1 1" rotation="0 90 0"></a-entity>
-    
-    <a-text id="hot_achievements" value="Achievements" position="-2.5 2.5 -3.5" color="#fff" align="center"></a-text>
-    <a-entity gltf-model="#golden_trophy" position="-200 -1 -450"></a-entity>
-
-    <a-text id="hot_contributions" value="Contributions" position="-9 -3 -3.5" rotation="0 90 0" color="#fff" align="center"></a-text> 
-    <a-entity gltf-model="#book" position="-10 -4 -4" scale="8 8 8"></a-entity>
-
-    <!-- Three interactive guide spheres (hotspots). They are slightly emissive and pulse 
+    <!-- Three interactive guide spheres (hotspots). They are slightly emissive and pulse -->
+    <a-text value="About" position="-4.5 0 -3" color="#fff" align="center"></a-text>
+    <a-entity gltf-model="#laptop" position="-11 -5 -13" scale="1 1 1.5" rotation="0 90 0"></a-entity>
     <a-sphere id="hot_about" class="nav" position="-6 -1 -3" radius="0.18" color="#00b5ff" emissive="#00b5ff" emissiveIntensity="0.7">
       <a-animation attribute="scale" dur="1200" to="1.2 1.2 1.2" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere> 
-    <a-sphere id="hot_awards" class="nav" position="-4.5 -1 -3.5" radius="0.18" color="#ffb300" emissive="#ffb300" emissiveIntensity="0.6">
+    
+    <a-text value="Achievements" position="-2.5 2.5 -3.5" color="#fff" align="center"></a-text>
+    <a-entity gltf-model="#golden_trophy" position="-200 -1 -450"></a-entity>
+    <a-sphere id="hot_achievements" class="nav" position="-4.5 -1 -3.5" radius="0.18" color="#ffb300" emissive="#ffb300" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1400" to="1.18 1.18 1.18" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere> 
-    <a-sphere id="hot_bookshelf" class="nav" position="-3 -1 -4" radius="0.18" color="#7be57a" emissive="#7be57a" emissiveIntensity="0.6">
+
+    <a-text value="Contributions" position="-9 -3 -6" rotation="0 90 0" color="#fff" align="center"></a-text> 
+    <a-entity gltf-model="#book" position="-10 -4 -6.5" scale="8 8 8"></a-entity>    
+    <a-sphere id="hot_contributions" class="nav" position="-3 -1 -4" radius="0.18" color="#7be57a" emissive="#7be57a" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1100" to="1.15 1.15 1.15" direction="alternate" repeat="indefinite"></a-animation>
-    </a-sphere> -->
+    </a-sphere> 
 
     <!-- Camera + cursor: mouse + WASD support -->
     <a-entity id="rig" position="0 1.6 2">
@@ -118,28 +96,26 @@
 
   <script>
     // Simple script to orchestrate speech, highlighting and modal navigation.
+    const speechEl = document.getElementById('ui-speech');
+    const dialogues = [
+      "Hello Visitor — welcome to Anvil D'Souza's virtual office. I'm the AI PM — your guide.",
+      "I lead product & AI teams that build regulated, revenue-first systems. Let me show you three key areas.",
+      "To the left: A laptop resembling About section, Trophy for going through my achievements and Books that will immerse you into my genuines contributions to society.", 
+      "Under each is a sphere that allows interactions with that section."
+      "About — learn about me and download my CV. In the right: Achievements — explore my projects and recognitions. To the left: Books — access my newsletter & comics."
+    ];
+    function runDialogue(i=0) {
+      if (i >= dialogues.length) return;
+      speak(dialogues[i]);
+      speechEl.textContent = dialogues[i];      
+      setTimeout(() => runDialogue(i+1), 4200);
+    }    
     function speak(text) {
       const msg = new SpeechSynthesisUtterance(text);
       msg.rate = 1; 
       msg.pitch = 1; 
       msg.voice = speechSynthesis.getVoices().find(v => v.lang.includes('en'));
       speechSynthesis.speak(msg);
-    }
-    
-    const speechEl = document.getElementById('ui-speech');
-    let step = 0;
-
-    const dialogues = [
-      "Hello — welcome to Anvil D'Souza's virtual director's office. I'm the AI PM — your guide.",
-      "I lead product & AI teams that build regulated, revenue-first systems. Let me show you three key areas.",
-      "To the left: About — learn about Anvil and download the CV. In the middle: Awards — explore project recognitions. To the right: Bookshelf — read newsletters & comics."
-    ];
-
-    function runDialogue(i=0) {
-      if (i >= dialogues.length) return;
-      speechEl.textContent = dialogues[i];
-      speak(dialogues[i]);
-      setTimeout(() => runDialogue(i+1), 4200);
     }
     window.onload = () => {
       runDialogue();
@@ -150,7 +126,6 @@
     const linkFrame = document.getElementById('linkFrame');
     const linkTitle = document.getElementById('linkTitle');
     document.getElementById('closeLink').addEventListener('click', closeModal);
-
     function openModal(title, url) {
       linkTitle.textContent = title;
       // Start timeout fallback in case site blocks embedding
@@ -166,6 +141,10 @@
       linkModal.style.display = 'none';
       linkModal.setAttribute('aria-hidden', 'true');
     }
+    // Basic accessibility: close modal with Escape
+    window.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape') closeModal();
+    });
 
     // Hotspot click behaviours (About / Awards / Bookshelf)
     const about = document.getElementById('hot_about');
@@ -181,8 +160,7 @@
         if (cv) {
           cv.addEventListener('click', (e) => { e.preventDefault(); openModal('LinkedIn Profile', 'https://www.linkedin.com/in/anvildsouza'); });
         }
-      }, 80);
-      
+      }, 80);      
       // wire CV link to modal — set your CV URL below
       setTimeout(() => {
         const cv = document.getElementById('cvLink');
@@ -191,22 +169,15 @@
         }
       }, 80);
     });
-
     achievements.addEventListener('click', () => {
       speechEl.innerHTML = "Achievements: Click trophies (coming soon) to view project pages and award details. For now, open the awards overview.";
       // open a placeholder awards page
       setTimeout(() => openModal('AI PM Newsletter', 'https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7327570817578352640'), 900);
     });
-
     contributions.addEventListener('click', () => {
       speechEl.innerHTML = "Contributions: Explore the AI PM Newsletter and AI PM Comics. Opening the bookshelf...";
       // connect to the bookshelf page you already host (replace below with your shelf host)
       setTimeout(() => openModal('AI PM Series', 'https://gemini.google.com/share/233d69d38d80'), 900);
-    });
-
-    // Basic accessibility: close modal with Escape
-    window.addEventListener('keydown', (ev) => {
-      if (ev.key === 'Escape') closeModal();
     });
 
     // Quick console note
