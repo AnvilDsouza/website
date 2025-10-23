@@ -196,6 +196,8 @@
     function openPreview(title, url, idx, img){
       // populate preview (procedural large cover)
       preview.style.backgroundImage = 'url('+img+')';
+      preview.style.backgroundSize = "contain";
+      preview.style.backgroundRepeat = "no-repeat";
       previewTitle.innerText = title;
       previewDesc.innerText = "A short preview of '"+title+"'. Click Open in Gemini to view the full comic.";
       detailTitle.innerText = title;
