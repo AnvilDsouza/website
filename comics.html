@@ -51,23 +51,6 @@
     .subtitle{font-size:13px;color:var(--muted);margin:0}
     .small{font-size:12px;color:var(--muted);margin-top:8px}
 
-    /* colors for pseudo-covers */
-    .c-1{ background:linear-gradient(135deg,#0b84ff,#084b8a); position:relative; }
-    .c-2{ background:linear-gradient(135deg,#06b6d4,#0b84ff); position:relative; }
-    .c-3{ background:linear-gradient(135deg,#ff6b35,#ffb86b); position:relative; }
-    .c-4{ background:linear-gradient(135deg,#7be57a,#2fa34a); position:relative; }
-    .c-5{ background:linear-gradient(135deg,#9b5cff,#4b2b91); position:relative; }
-    .c-6{ background:linear-gradient(135deg,#f97316,#d94600); position:relative; }
-    .c-7{ background:linear-gradient(135deg,#06d6a0,#028a65); position:relative; }
-    .c-8{ background:linear-gradient(135deg,#f59e0b,#b45309); position:relative; }
-    .c-9{ background:linear-gradient(135deg,#3b82f6,#1e40af); position:relative; }
-    .c-10{ background:linear-gradient(135deg,#ec4899,#be185d); position:relative; }
-    .c-11{ background:linear-gradient(135deg,#0ea5a4,#065f5b); position:relative; }
-    .c-12{ background:linear-gradient(135deg,#34d399,#065f46); position:relative; }
-    .c-13{ background:linear-gradient(135deg,#60a5fa,#1e3a8a); position:relative; }
-    .c-14{ background:linear-gradient(135deg,#f97316,#f43f5e); position:relative; }
-    .c-15{ background:linear-gradient(135deg,#8b5cff,#6d28d9); position:relative; }
-
     /* modal preview */
     .modal {
       position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:9999;
@@ -158,13 +141,16 @@
     ];
 
     // Simple cover generation: procedural gradient + short title line
-    function makeCoverElement(title, idx){
+    function makeCoverElement(title, idx, img){
       const cover = document.createElement('div');
       cover.className = 'cover c-'+((idx%15)+1);
       cover.style.position = 'relative';
       cover.style.display = 'flex';
       cover.style.alignItems = 'flex-end';
-      cover.style.padding = '10px';      
+      cover.style.padding = '10px';
+      cover.background.image.url = img;
+      cover.babkground.size = "contain";
+      cover.background.repeat = "no-repeat";
       return cover;
     }
 
@@ -177,8 +163,11 @@
       card.setAttribute('tabindex', '0');
       card.dataset.title = title;
       card.dataset.url = url;
+      card.background.image.url = img;
+      card.babkground.size = "contain";
+      card.background.repeat = "no-repeat";
       // cover
-      const cover = makeCoverElement(title, i);
+      const cover = makeCoverElement(title, i, u);
       // meta
       const meta = document.createElement('div'); meta.className='meta';
       const h = document.createElement('h3'); h.className='title'; h.innerText = title;
