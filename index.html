@@ -7,6 +7,8 @@
   
   <!-- A-Frame (single dependency) -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GH6EC0G2R9"></script>
   
   <style>
     html,body { height:100%; margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; font-weight:bold; background:#111;}
@@ -153,14 +155,7 @@
 
     about.addEventListener('click', () => {
       // change speech text and open LinkedIn/CV choices via modal links
-      speechEl.innerHTML = "About: Visit my <a href='#' id='linkedIn' target='_blank' style='color:#9fdcff'>LinkedIn</a> or <a href='#' id='cvLink' style='color:#9fdcff'>download my CV</a>.";
-      // wire CV link to modal — set your CV URL below
-      setTimeout(() => {
-        const cv = document.getElementById('linkedIn');
-        if (cv) {
-          cv.addEventListener('click', (e) => { e.preventDefault(); openModal('LinkedIn Profile', 'https://www.linkedin.com/in/anvildsouza'); });
-        }
-      }, 80);      
+      speechEl.innerHTML = "About: Visit my <a href='https://www.linkedin.com/in/anvildsouza' id='linkedIn' target='_blank' style='color:#9fdcff'>LinkedIn</a> or <a href='#' id='cvLink' style='color:#9fdcff'>download my CV</a>.";    
       // wire CV link to modal — set your CV URL below
       setTimeout(() => {
         const cv = document.getElementById('cvLink');
@@ -182,6 +177,11 @@
 
     // Quick console note
     console.info('Director Office scene ready. If the scene does not render, check browser console for errors (Press F12).');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());  
+    gtag('config', 'G-GH6EC0G2R9');
+    
   </script>
 </body>
 </html>
