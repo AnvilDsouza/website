@@ -1,255 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anvil D’Souza | Achievements & Growth Journey</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Career Rocket Journey – Achievements</title>
 
   <style>
     body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000 100%);
+      color: #e0e0e0;
       margin: 0;
-      font-family: 'Segoe UI', Roboto, sans-serif;
-      background-color: #0d0d0d;
-      color: #f4f4f4;
-      line-height: 1.7;
       overflow-x: hidden;
     }
 
-    header {
+    h1 {
       text-align: center;
-      padding: 80px 20px 40px;
-      background: linear-gradient(135deg, #0d0d0d 60%, #1b1b1b);
-    }
-
-    header h1 {
-      font-size: 2.4rem;
+      font-size: 2.5em;
+      margin-top: 40px;
+      color: #00d4ff;
       letter-spacing: 1px;
-      margin-bottom: 10px;
-      color: #f8f8f8;
-    }
-
-    header p {
-      color: #bfbfbf;
-      font-style: italic;
-      max-width: 700px;
-      margin: 0 auto;
     }
 
     .timeline {
       position: relative;
-      margin: 60px auto;
-      padding: 0 20px;
-      max-width: 900px;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      width: 2px;
-      height: 100%;
-      background: #333;
-      transform: translateX(-50%);
-    }
-
-    .entry {
-      margin: 40px 0;
-      position: relative;
-      width: 50%;
-      padding: 20px 30px;
-      box-sizing: border-box;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      transition: transform 0.3s ease;
-    }
-
-    .entry:hover {
-      transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .entry::before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      width: 14px;
-      height: 14px;
-      background: #00d4ff;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #00d4ff;
-    }
-
-    .entry.left {
-      left: 0;
-      transform-origin: right;
-    }
-
-    .entry.left::before {
-      right: -7px;
-    }
-
-    .entry.right {
-      left: 50%;
-      transform-origin: left;
-    }
-
-    .entry.right::before {
-      left: -7px;
-    }
-
-    .entry h3 {
-      margin: 0;
-      color: #00d4ff;
-      font-size: 1.3rem;
-    }
-
-    .entry h4 {
-      margin-top: 5px;
-      color: #ccc;
-      font-size: 1.1rem;
-      font-weight: normal;
-    }
-
-    .entry ul {
-      margin-top: 10px;
-      padding-left: 20px;
-    }
-
-    .entry ul li {
-      margin-bottom: 6px;
-      color: #ddd;
-    }
-
-    .lesson {
-      font-style: italic;
-      color: #aaa;
-      margin-top: 12px;
-    }
-
-    .certifications {
+      width: 90%;
       max-width: 800px;
-      margin: 80px auto;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 30px;
+      margin: 100px auto;
+    }
+
+    .rocket {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: -60px;
+      animation: float 2s ease-in-out infinite alternate;
+    }
+
+    .rocket img {
+      width: 80px;
+    }
+
+    @keyframes float {
+      from { transform: translate(-50%, -5px); }
+      to { transform: translate(-50%, 5px); }
+    }
+
+    .milestone {
+      position: relative;
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid #00d4ff;
+      margin: 60px 0;
+      padding: 20px 30px;
       border-radius: 10px;
-      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
     }
 
-    .certifications h2 {
+    .milestone::before {
+      content: "★";
+      position: absolute;
+      left: -17px;
+      top: 25px;
       color: #00d4ff;
-      margin-bottom: 10px;
+      font-size: 20px;
     }
 
-    .certifications ul {
-      list-style: none;
-      padding: 0;
+    .milestone h2 {
       margin: 0;
-      color: #ccc;
-      font-size: 0.95rem;
-      line-height: 1.8;
+      font-size: 1.4em;
+      color: #00d4ff;
+    }
+
+    .milestone h3 {
+      margin: 5px 0;
+      font-size: 1.1em;
+      color: #ffcc70;
+    }
+
+    .milestone p {
+      margin: 8px 0 0;
+      line-height: 1.6;
+      color: #cfd8dc;
     }
 
     footer {
       text-align: center;
-      color: #777;
-      padding: 40px;
-      font-size: 0.9rem;
-    }
-
-    @media (max-width: 800px) {
-      .entry, .entry.right, .entry.left {
-        width: 100%;
-        left: 0 !important;
-        margin-left: 0;
-      }
-      .timeline::before {
-        left: 20px;
-      }
-      .entry::before {
-        left: 10px !important;
-      }
+      padding: 20px;
+      color: #999;
+      font-size: 0.9em;
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <h1>The Journey of Crafting Intelligent Systems</h1>
-    <p>“The wise do not rush ahead; they light the path so others may find their way faster.”<br>
-    A reflection of my journey — from data to decisions, from systems to strategy.</p>
-  </header>
-
-  <section class="timeline">
-    
-    <div class="entry left">
-      <h3>2013–2016 · The Foundation</h3>
-      <h4>Data Analyst → Senior Analyst</h4>
-      <ul>
-        <li>Developed analytical dashboards for leadership insight.</li>
-        <li>Bridged data science with business decision-making.</li>
-        <li>Certifications: Tableau Specialist, Six Sigma Yellow Belt.</li>
-      </ul>
-      <p class="lesson">“Numbers reveal patterns, but people give them purpose.”</p>
+  <h1>🚀 My Career Rocket Journey</h1>
+  <div class="timeline">
+    <div class="rocket">
+      <img src="https://cdn-icons-png.flaticon.com/512/3212/3212608.png" alt="Rocket Icon" />
     </div>
 
-    <div class="entry right">
-      <h3>2016–2019 · The Architecting Phase</h3>
-      <h4>Analytics Product Lead</h4>
-      <ul>
-        <li>Introduced enterprise-wide data product catalog.</li>
-        <li>Launched “Analytics as a Service” model.</li>
-        <li>Certifications: PMI-ACP, AWS Data Analytics Specialty.</li>
-      </ul>
-      <p class="lesson">“True architecture lies in making intelligence scalable — not just accessible.”</p>
+    <!-- LATEST EXPERIENCE -->
+    <div class="milestone">
+      <h2>Director – AI & Analytics Strategy</h2>
+      <h3>M&G plc | 2024–Present</h3>
+      <p>Led transformation of Asset Management’s AI ecosystem through a regulation-first strategy, orchestrating multi-million portfolio governance and establishing enterprise AI maturity model across global functions.</p>
     </div>
 
-    <div class="entry left">
-      <h3>2019–2021 · The 0→1 Builder Era</h3>
-      <h4>Product Manager, AI & Analytics Platforms</h4>
-      <ul>
-        <li>Built MLOps and governance platforms for regulated domains.</li>
-        <li>Drove multi-country compliance readiness.</li>
-        <li>Certifications: CSPO, Azure AI Fundamentals.</li>
-      </ul>
-      <p class="lesson">“Every platform is a philosophy encoded in code.”</p>
+    <div class="milestone">
+      <h2>Product Leader – Responsible AI Platforms</h2>
+      <h3>SAiGE (Sentient Adaptive Intelligence Governance Ecosystem)</h3>
+      <p>Designed a product-agnostic governance ecosystem, embedding trust, compliance, and explainability as strategic differentiators across AI lifecycle management.</p>
     </div>
 
-    <div class="entry right">
-      <h3>2021–2024 · The Strategic Turn</h3>
-      <h4>Head of AI & Analytics</h4>
-      <ul>
-        <li>Conceived <strong>SAiGE</strong> – The Sentient Adaptive Intelligence Governance Ecosystem™.</li>
-        <li>Influenced CxO-level AI governance and operating models.</li>
-        <li>Partnered with regulators to design responsible AI frameworks.</li>
-      </ul>
-      <p class="lesson">“Leadership is not control — it’s constructing systems where excellence becomes inevitable.”</p>
+    <div class="milestone">
+      <h2>Senior Technical Product Manager</h2>
+      <h3>Global Asset Management</h3>
+      <p>Architected data and AI foundations supporting portfolio management intelligence, improving time-to-insight by 40% and compliance readiness for ESG mandates.</p>
     </div>
 
-    <div class="entry left">
-      <h3>2024–Present · The Thought Leadership Frontier</h3>
-      <h4>Director-level Advisor / AI Product Strategist</h4>
-      <ul>
-        <li>Author of <em>AI PM Diaries</em> and the <em>Regulated AI Product Canvas</em>.</li>
-        <li>Speaker at AI Governance Roundtables and industry panels.</li>
-        <li>Certification: PMI-CP (AI/ML) – in progress.</li>
-      </ul>
-      <p class="lesson">“Thought leadership is stewardship of collective intelligence.”</p>
+    <div class="milestone">
+      <h2>AI Evangelist & Thought Leader</h2>
+      <h3>Speaker | Mentor | Writer</h3>
+      <p>Founded the “AI PM Diaries” comic series blending humor and philosophy to translate complex AI ethics and governance into accessible storytelling for professionals and executives alike.</p>
     </div>
-  </section>
 
-  <section class="certifications">
-    <h2>Certifications & Recognitions</h2>
-    <ul>
-      <li>PMI-ACP | CSPO | PMI-CP (AI/ML) – In Progress</li>
-      <li>AWS Data Analytics Specialty | Azure AI Fundamentals</li>
-      <li>Tableau Specialist | Six Sigma Yellow Belt</li>
-      <li>Responsible AI Practitioner | Enterprise AI Leadership Award 2023</li>
-    </ul>
-  </section>
+    <div class="milestone">
+      <h2>Certifications & Continuous Learning</h2>
+      <h3>PMI | MIT Sloan | Google Cloud | AWS | Microsoft</h3>
+      <p>Certified in AI Product Management, Responsible AI, Cloud Architecture, and Business Leadership — representing a lifelong pursuit of mastery and ethical innovation.</p>
+    </div>
+
+    <div class="milestone">
+      <h2>Early Career Foundations</h2>
+      <h3>Developer → Product Manager</h3>
+      <p>Built robust analytical and technical foundations transitioning from engineering to product leadership — embodying the principle, “The wise do not rush ahead; they light the path so others may find their way faster.”</p>
+    </div>
+  </div>
 
   <footer>
-    © 2025 Anvil D’Souza · “Each achievement is a design pattern — of learning, of influence, of evolution.”
+    © 2025 Anvil D’Souza | Crafted with integrity, guided by wisdom.
   </footer>
-
 </body>
 </html>
