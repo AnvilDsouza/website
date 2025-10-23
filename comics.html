@@ -148,7 +148,7 @@
       cover.style.display = 'flex';
       cover.style.alignItems = 'flex-end';
       cover.style.padding = '10px';
-      cover.style.backgroundImage = img;
+      cover.style.backgroundImage.link(img);
       cover.style.backgroundSize = "contain";
       cover.style.backgroundRepeat = "no-repeat";
       return cover;
@@ -166,7 +166,7 @@
       card.dataset.background = img;
       
       // cover
-      const cover = makeCoverElement(title, i, u);
+      const cover = makeCoverElement(title, i, img);
       // meta
       const meta = document.createElement('div'); meta.className='meta';
       const h = document.createElement('h3'); h.className='title'; h.innerText = title;
