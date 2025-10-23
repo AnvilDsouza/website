@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AI PM Diaries</title>
+  <title>The AI PM Diaries</title>
   <style>
     :root{
       --bg:#0f1720;
@@ -105,7 +105,7 @@
   <div class="wrap" role="main">
     <header>
       <div>
-        <h1>AI PM Diaries — Comic Series</h1>
+        <h1>The AI PM Diaries — Comic Series</h1>
         <p>Click any cover to preview. From the preview you can open the full comic in Gemini (new tab).</p>
       </div>
     </header>
@@ -132,7 +132,7 @@
           <button id="closeModal" class="btn secondary">Close</button>
         </div>
 
-        <p class="small" style="margin-top:12px;color:var(--muted)">Note: If Gemini link blocks embedding, it will open in a new tab. You can update the script later to replace the preview image or add subtitles.</p>
+        <!-- <p class="small" style="margin-top:12px;color:var(--muted)">Note: If Gemini link blocks embedding, it will open in a new tab. You can update the script later to replace the preview image or add subtitles.</p> -->
       </div>
     </div>
   </div>
@@ -140,21 +140,21 @@
   <script>
     // Data: title + gemini share URL
     const comics = [
-      ["The AI PM Diaries - MVP","https://g.co/gemini/share/6d40c85b519e"],
-      ["The AI PM Diaries - The Ever-Expanding Horizon","https://g.co/gemini/share/eab63c35d766"],
-      ["The AI PM Diaries - 99% Accuracy, 0% Adoption","https://g.co/gemini/share/d6a7388e02d7"],
-      ["The AI PM Diaries - Hello, I’m The Data (and I Have Issues)","https://g.co/gemini/share/de6cbdfa3fa8"],
-      ["The AI PM Diaries - The A/B Test That Became A–Z","https://g.co/gemini/share/63eb6d03df5a"],
-      ["The AI PM Diaries - Explain It Like I’m a Regulator","https://g.co/gemini/share/b49f85c853e1"],
-      ["The AI PM Diaries - Prompt Injection Potluck","https://g.co/gemini/share/a05d20888b74"],
-      ["The AI PM Diaries - Free Trial to Production (FTTP)","https://g.co/gemini/share/17e787ac48a5"],
-      ["The AI PM Diaries - The Drift","https://g.co/gemini/share/a2d71a5e2b2e"],
-      ["The AI PM Diaries - The OKR Bermuda Triangle","https://g.co/gemini/share/2977b1a03727"],
-      ["The AI PM Diaries - Ethics Board vs. Board Ethics","https://g.co/gemini/share/967538b4a886"],
-      ["The AI PM Diaries - Feature-Creep vs. Value-Chop","https://g.co/gemini/share/20c2102eda4f"],
-      ["The AI PM Diaries - GDPR Peekaboo","https://g.co/gemini/share/7ce7d68cd892"],
-      ["The AI PM Diaries - Vendor Promise, Integration Purgatory","https://g.co/gemini/share/4d20a65f3042"],
-      ["The AI PM Diaries - GPU Budget vs. Coffee Budget","https://g.co/gemini/share/c940840abac1"]
+      ["MVP","https://g.co/gemini/share/6d40c85b519e","assets/comics/MVP.jpg"],
+      ["The Ever-Expanding Horizon","https://g.co/gemini/share/eab63c35d766","assets/comics/Expanding Horizon.jpg"],
+      ["99% Accuracy, 0% Adoption","https://g.co/gemini/share/d6a7388e02d7","assets/comics/AccuracyAdoption.jpg"],
+      ["Hello, I’m The Data (and I Have Issues)","https://g.co/gemini/share/de6cbdfa3fa8","assets/comics/Data.jpg"],
+      ["The A/B Test That Became A–Z","https://g.co/gemini/share/63eb6d03df5a","assets/comics/ABTesting.jpg"],
+      ["Explain It Like I’m a Regulator","https://g.co/gemini/share/b49f85c853e1","assets/comics/Regulator.jpg"],
+      ["Prompt Injection Potluck","https://g.co/gemini/share/a05d20888b74","assets/comics/Potluck.jpg"],
+      ["Free Trial to Production (FTTP)","https://g.co/gemini/share/17e787ac48a5","assets/comics/Trial.jpg"],
+      ["The Drift","https://g.co/gemini/share/a2d71a5e2b2e","assets/comics/Drift.jpg"],
+      ["The OKR Bermuda Triangle","https://g.co/gemini/share/2977b1a03727","assets/comics/OKR.jpg"],
+      ["Ethics Board vs. Board Ethics","https://g.co/gemini/share/967538b4a886","assets/comics/Standup.jpg"],
+      ["Feature-Creep vs. Value-Chop","https://g.co/gemini/share/20c2102eda4f","assets/comics/FeatureCreep.jpg"],
+      ["GDPR Peekaboo","https://g.co/gemini/share/7ce7d68cd892","assets/comics/GDPR.jpg"],
+      ["Vendor Promise, Integration Purgatory","https://g.co/gemini/share/4d20a65f3042","assets/comics/VendorAE.jpg"],
+      ["GPU Budget vs. Coffee Budget","https://g.co/gemini/share/c940840abac1","assets/comics/GPUCoffee.jpg"]
     ];
 
     // Simple cover generation: procedural gradient + short title line
@@ -164,22 +164,14 @@
       cover.style.position = 'relative';
       cover.style.display = 'flex';
       cover.style.alignItems = 'flex-end';
-      cover.style.padding = '10px';
-      // show short title on spine area
-      const spine = document.createElement('div');
-      spine.style.fontSize = '12px';
-      spine.style.lineHeight = '1';
-      spine.style.zIndex = '2';
-      spine.style.textShadow = '0 2px 8px rgba(0,0,0,0.6)';
-      spine.innerText = title.split(' - ').pop().slice(0,24);
-      cover.appendChild(spine);
+      cover.style.padding = '10px';      
       return cover;
     }
 
     // Build grid
     const grid = document.getElementById('grid');
-    comics.forEach((c, i) => {
-      const [title, url] = c;
+    comics.forEach((c, i, u) => {
+      const [title, url, img] = c;
       const card = document.createElement('article');
       card.className = 'card';
       card.setAttribute('tabindex', '0');
@@ -190,7 +182,7 @@
       // meta
       const meta = document.createElement('div'); meta.className='meta';
       const h = document.createElement('h3'); h.className='title'; h.innerText = title;
-      const s = document.createElement('div'); s.className='subtitle'; s.innerText = 'AI PM Diaries — Comic';
+      const s = document.createElement('div'); s.className='subtitle'; s.innerText = 'The AI PM Diaries';
       meta.appendChild(h); meta.appendChild(s);
       // append
       card.appendChild(cover);
