@@ -124,7 +124,7 @@
     // Data: title + gemini share URL
     const comics = [
       ["MVP","https://g.co/gemini/share/6d40c85b519e","assets/comics/MVP.jpg"],
-      ["The Ever-Expanding Horizon","https://g.co/gemini/share/eab63c35d766","assets/comics/Expanding Horizon.jpg"],
+      ["The Ever-Expanding Horizon","https://g.co/gemini/share/eab63c35d766","assets/comics/ExpandingHorizon.jpg"],
       ["99% Accuracy, 0% Adoption","https://g.co/gemini/share/d6a7388e02d7","assets/comics/AccuracyAdoption.jpg"],
       ["Hello, I’m The Data (and I Have Issues)","https://g.co/gemini/share/de6cbdfa3fa8","assets/comics/Data.jpg"],
       ["The A/B Test That Became A–Z","https://g.co/gemini/share/63eb6d03df5a","assets/comics/ABTesting.jpg"],
@@ -177,7 +177,7 @@
       card.appendChild(meta);
 
       // click handler
-      card.addEventListener('click', () => openPreview(title, url, i, u));
+      card.addEventListener('click', () => openPreview(title, url, i, img));
       card.addEventListener('keypress', (ev) => { if(ev.key === 'Enter' || ev.key === ' ') openPreview(title,url,i); });
 
       grid.appendChild(card);
@@ -195,7 +195,7 @@
 
     function openPreview(title, url, idx, img){
       // populate preview (procedural large cover)
-      preview.style.background = img;
+      preview.style.backgroundImage = 'url('+img+')';
       previewTitle.innerText = title;
       previewDesc.innerText = "A short preview of '"+title+"'. Click Open in Gemini to view the full comic.";
       detailTitle.innerText = title;
