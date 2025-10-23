@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anvil D’Souza | Achievements & Growth Journey</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background-color: #0d0d0d;
+      color: #f4f4f4;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 20px 40px;
+      background: linear-gradient(135deg, #0d0d0d 60%, #1b1b1b);
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      color: #f8f8f8;
+    }
+
+    header p {
+      color: #bfbfbf;
+      font-style: italic;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .timeline {
+      position: relative;
+      margin: 60px auto;
+      padding: 0 20px;
+      max-width: 900px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: #333;
+      transform: translateX(-50%);
+    }
+
+    .entry {
+      margin: 40px 0;
+      position: relative;
+      width: 50%;
+      padding: 20px 30px;
+      box-sizing: border-box;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .entry:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .entry::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      width: 14px;
+      height: 14px;
+      background: #00d4ff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #00d4ff;
+    }
+
+    .entry.left {
+      left: 0;
+      transform-origin: right;
+    }
+
+    .entry.left::before {
+      right: -7px;
+    }
+
+    .entry.right {
+      left: 50%;
+      transform-origin: left;
+    }
+
+    .entry.right::before {
+      left: -7px;
+    }
+
+    .entry h3 {
+      margin: 0;
+      color: #00d4ff;
+      font-size: 1.3rem;
+    }
+
+    .entry h4 {
+      margin-top: 5px;
+      color: #ccc;
+      font-size: 1.1rem;
+      font-weight: normal;
+    }
+
+    .entry ul {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    .entry ul li {
+      margin-bottom: 6px;
+      color: #ddd;
+    }
+
+    .lesson {
+      font-style: italic;
+      color: #aaa;
+      margin-top: 12px;
+    }
+
+    .certifications {
+      max-width: 800px;
+      margin: 80px auto;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .certifications h2 {
+      color: #00d4ff;
+      margin-bottom: 10px;
+    }
+
+    .certifications ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      color: #ccc;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    footer {
+      text-align: center;
+      color: #777;
+      padding: 40px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 800px) {
+      .entry, .entry.right, .entry.left {
+        width: 100%;
+        left: 0 !important;
+        margin-left: 0;
+      }
+      .timeline::before {
+        left: 20px;
+      }
+      .entry::before {
+        left: 10px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>The Journey of Crafting Intelligent Systems</h1>
+    <p>“The wise do not rush ahead; they light the path so others may find their way faster.”<br>
+    A reflection of my journey — from data to decisions, from systems to strategy.</p>
+  </header>
+
+  <section class="timeline">
+    
+    <div class="entry left">
+      <h3>2013–2016 · The Foundation</h3>
+      <h4>Data Analyst → Senior Analyst</h4>
+      <ul>
+        <li>Developed analytical dashboards for leadership insight.</li>
+        <li>Bridged data science with business decision-making.</li>
+        <li>Certifications: Tableau Specialist, Six Sigma Yellow Belt.</li>
+      </ul>
+      <p class="lesson">“Numbers reveal patterns, but people give them purpose.”</p>
+    </div>
+
+    <div class="entry right">
+      <h3>2016–2019 · The Architecting Phase</h3>
+      <h4>Analytics Product Lead</h4>
+      <ul>
+        <li>Introduced enterprise-wide data product catalog.</li>
+        <li>Launched “Analytics as a Service” model.</li>
+        <li>Certifications: PMI-ACP, AWS Data Analytics Specialty.</li>
+      </ul>
+      <p class="lesson">“True architecture lies in making intelligence scalable — not just accessible.”</p>
+    </div>
+
+    <div class="entry left">
+      <h3>2019–2021 · The 0→1 Builder Era</h3>
+      <h4>Product Manager, AI & Analytics Platforms</h4>
+      <ul>
+        <li>Built MLOps and governance platforms for regulated domains.</li>
+        <li>Drove multi-country compliance readiness.</li>
+        <li>Certifications: CSPO, Azure AI Fundamentals.</li>
+      </ul>
+      <p class="lesson">“Every platform is a philosophy encoded in code.”</p>
+    </div>
+
+    <div class="entry right">
+      <h3>2021–2024 · The Strategic Turn</h3>
+      <h4>Head of AI & Analytics</h4>
+      <ul>
+        <li>Conceived <strong>SAiGE</strong> – The Sentient Adaptive Intelligence Governance Ecosystem™.</li>
+        <li>Influenced CxO-level AI governance and operating models.</li>
+        <li>Partnered with regulators to design responsible AI frameworks.</li>
+      </ul>
+      <p class="lesson">“Leadership is not control — it’s constructing systems where excellence becomes inevitable.”</p>
+    </div>
+
+    <div class="entry left">
+      <h3>2024–Present · The Thought Leadership Frontier</h3>
+      <h4>Director-level Advisor / AI Product Strategist</h4>
+      <ul>
+        <li>Author of <em>AI PM Diaries</em> and the <em>Regulated AI Product Canvas</em>.</li>
+        <li>Speaker at AI Governance Roundtables and industry panels.</li>
+        <li>Certification: PMI-CP (AI/ML) – in progress.</li>
+      </ul>
+      <p class="lesson">“Thought leadership is stewardship of collective intelligence.”</p>
+    </div>
+  </section>
+
+  <section class="certifications">
+    <h2>Certifications & Recognitions</h2>
+    <ul>
+      <li>PMI-ACP | CSPO | PMI-CP (AI/ML) – In Progress</li>
+      <li>AWS Data Analytics Specialty | Azure AI Fundamentals</li>
+      <li>Tableau Specialist | Six Sigma Yellow Belt</li>
+      <li>Responsible AI Practitioner | Enterprise AI Leadership Award 2023</li>
+    </ul>
+  </section>
+
+  <footer>
+    © 2025 Anvil D’Souza · “Each achievement is a design pattern — of learning, of influence, of evolution.”
+  </footer>
+
+</body>
+</html>
