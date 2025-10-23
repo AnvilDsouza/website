@@ -170,9 +170,15 @@
       setTimeout(() => openModal('AI PM Newsletter', 'https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7327570817578352640'), 900);
     });
     contributions.addEventListener('click', () => {
-      speechEl.innerHTML = "Contributions: Explore the AI PM Newsletter and AI PM Comics. Opening the bookshelf...";
+      speechEl.innerHTML = "Contributions: Explore the <a href='https://www.linkedin.com/in/anvildsouza' id='newsletter' target='_blank' style='color:#9fdcff'>AI PM Newsletter</a> or <a href='#' id='comics' style='color:#9fdcff'>The AI PM Diaries</a>.";
       // connect to the bookshelf page you already host (replace below with your shelf host)
-      setTimeout(() => openModal('AI PM Series', 'https://gemini.google.com/share/233d69d38d80'), 900);
+      //setTimeout(() => openModal('AI PM Series', 'https://gemini.google.com/share/233d69d38d80'), 900);
+      setTimeout(() => {
+        const cv = document.getElementById('comics');
+        if (cv) {
+          cv.addEventListener('click', (e) => { e.preventDefault(); openModal('The AI PM Diaries', 'comics.html'); });
+        }
+      }, 80);
     });
 
     // Quick console note
