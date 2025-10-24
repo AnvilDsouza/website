@@ -58,7 +58,7 @@
   <a-scene>
 
     <!-- 360° Office Background -->
-    <a-sky src="modern-office.jpg" rotation="0 -90 0"></a-sky>
+    <a-sky src="/assets/modern-office.jpg" rotation="0 -90 0"></a-sky>
     
     <!-- Ambient lighting -->
     <a-entity light="type: ambient; intensity: 0.9"></a-entity>
@@ -77,7 +77,7 @@
     </a-sphere> 
     
     <a-text value="Achievements" position="-2.5 2.5 -3.5" color="#fff" align="center"></a-text>
-    <a-entity gltf-model="#golden_trophy" position="-200 -1 -450"></a-entity>
+    <a-entity gltf-model="#golden_trophy" position="-150 -50 -300" scale="0.3 0.3 0.3" rotation="0 90 0"></a-entity>
     <a-sphere id="hot_achievements" class="nav" position="-2.5 2 -3.5" radius="0.18" color="#ffb300" emissive="#ffb300" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1400" to="1.18 1.18 1.18" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere> 
@@ -108,7 +108,7 @@
     ];
     function runDialogue(i=0) {
       if (i >= dialogues.length) return;
-      speak(dialogues[i]);
+      //speak(dialogues[i]);
       speechEl.textContent = dialogues[i];      
       setTimeout(() => runDialogue(i+1), 4200);
     }    
