@@ -70,23 +70,23 @@
       <a-asset-item id="book" src="book.glb"></a-asset-item>
     </a-assets>
     <!-- Three interactive guide spheres (hotspots). They are slightly emissive and pulse -->
-    <a-text value="About" position="-4.5 0 -3" color="#fff" align="center"></a-text>
-    <a-entity gltf-model="#laptop" position="-11 -5 -13" scale="1 1 1.5" rotation="0 90 0"></a-entity>
-    <a-sphere id="hot_about" class="nav" position="-5.3 -0.8 -4" radius="0.18" color="#00b5ff" emissive="#00b5ff" emissiveIntensity="0.7">
+    <a-sphere id="hot_about" class="nav" position="0 -1 -4.5" radius="0.18" color="#00b5ff" emissive="#00b5ff" emissiveIntensity="0.7">
       <a-animation attribute="scale" dur="1200" to="1.2 1.2 1.2" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere> 
+    <a-text value="About" position="0 0 -3" color="#fff" align="center"></a-text>
+    <a-entity gltf-model="#laptop" position="0 -6 -13" scale="1 1 1" rotation="0 360 0"></a-entity>
     
-    <a-text value="Achievements" position="-2.5 2.5 -3.5" color="#fff" align="center"></a-text>
-    <a-entity gltf-model="#golden_trophy" position="-150 -50 -300" scale="0.3 0.3 0.3" rotation="0 90 0"></a-entity>
-    <a-sphere id="hot_achievements" class="nav" position="-2.5 2 -3.5" radius="0.18" color="#ffb300" emissive="#ffb300" emissiveIntensity="0.6">
+    <a-sphere id="hot_achievements" class="nav" position="5 -1 -3.5" radius="0.18" color="#ffb300" emissive="#ffb300" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1400" to="1.18 1.18 1.18" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere> 
-
-    <a-text value="Contributions" position="-9 -3 -6" rotation="0 90 0" color="#fff" align="center"></a-text> 
-    <a-entity gltf-model="#book" position="-10 -4 -6.5" scale="8 8 8"></a-entity>    
-    <a-sphere id="hot_contributions" class="nav" position="-8.9 -3.5 -6" radius="0.18" color="#7be57a" emissive="#7be57a" emissiveIntensity="0.6">
+    <a-text value="Achievements" position="4.5 0 -3" color="#fff" align="center"></a-text>
+    <a-entity gltf-model="#golden_trophy" position="190 -90 -210" scale="0.3 0.3 0.3" rotation="0 90 0"></a-entity>
+    
+    <a-sphere id="hot_contributions" class="nav" position="-7 -3 -5" radius="0.18" color="#7be57a" emissive="#7be57a" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1100" to="1.15 1.15 1.15" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere> 
+    <a-text value="Contributions" position="-7.3 -3 -6" rotation="0 50 0" color="#fff" align="center"></a-text> 
+    <a-entity gltf-model="#book" position="-8 -4 -6.5" scale="8 8 8"></a-entity>    
 
     <!-- Camera + cursor: mouse + WASD support -->
     <a-entity id="rig" position="0 1.6 2">
