@@ -85,7 +85,7 @@
     <a-sphere id="hot_contributions" class="nav" position="-5 -1 -3.5" radius="0.18" color="#7be57a" emissive="#7be57a" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1100" to="1.15 1.15 1.15" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere> 
-    <a-text value="Contributions" position="4.5 -0.2 -3" rotation="0 50 0" color="#fff" align="center"></a-text> 
+    <a-text value="Contributions" position="-4.5 -0.2 -3" rotation="0 50 0" color="#fff" align="center"></a-text> 
     <a-entity gltf-model="#book" position="-8 -4 -6.5" scale="8 8 8"></a-entity>    
 
     <!-- Camera + cursor: mouse + WASD support -->
@@ -167,7 +167,7 @@
     achievements.addEventListener('click', () => {
       speechEl.innerHTML = "Achievements: My “career lift-off” — where every role, certification, and milestone represents a stage of propulsion toward leadership.";
       // open a placeholder awards page
-      setTimeout(() => openModal('Career Journey', 'achievements.html'), 80);
+      setTimeout(() => openModal('Career Portfolio', 'achievements.html'), 80);
     });
     contributions.addEventListener('click', () => {
       speechEl.innerHTML = "Contributions: Explore the <a href='https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7327570817578352640' id='newsletter' target='_blank' style='color:#9fdcff'>AI PM Newsletter</a> or <a href='#' id='comics' style='color:#9fdcff'>The AI PM Diaries</a>.";
