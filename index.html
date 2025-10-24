@@ -79,13 +79,13 @@
     <a-sphere id="hot_achievements" class="nav" position="5 -1 -3.5" radius="0.18" color="#ffb300" emissive="#ffb300" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1400" to="1.18 1.18 1.18" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere> 
-    <a-text value="Achievements" position="4.5 0 -3" color="#fff" align="center"></a-text>
+    <a-text value="Achievements" position="4.5 -0.2 -3" color="#fff" align="center"></a-text>
     <a-entity gltf-model="#golden_trophy" position="190 -90 -210" scale="0.3 0.3 0.3" rotation="0 90 0"></a-entity>
     
-    <a-sphere id="hot_contributions" class="nav" position="-7 -3 -5" radius="0.18" color="#7be57a" emissive="#7be57a" emissiveIntensity="0.6">
+    <a-sphere id="hot_contributions" class="nav" position="-5 -1 -3.5" radius="0.18" color="#7be57a" emissive="#7be57a" emissiveIntensity="0.6">
       <a-animation attribute="scale" dur="1100" to="1.15 1.15 1.15" direction="alternate" repeat="indefinite"></a-animation>
     </a-sphere> 
-    <a-text value="Contributions" position="-7.3 -3 -6" rotation="0 50 0" color="#fff" align="center"></a-text> 
+    <a-text value="Contributions" position="4.5 -0.2 -3" rotation="0 50 0" color="#fff" align="center"></a-text> 
     <a-entity gltf-model="#book" position="-8 -4 -6.5" scale="8 8 8"></a-entity>    
 
     <!-- Camera + cursor: mouse + WASD support -->
@@ -155,7 +155,7 @@
 
     about.addEventListener('click', () => {
       // change speech text and open LinkedIn/CV choices via modal links
-      speechEl.innerHTML = "About: Visit my <a href='https://www.linkedin.com/in/anvildsouza' id='linkedIn' target='_blank' style='color:#9fdcff'>LinkedIn</a> or <a href='#' id='cvLink' style='color:#9fdcff'>download my CV</a>.";    
+      speechEl.innerHTML = "About: Visit my <a href='https://www.linkedin.com/in/anvildsouza' id='linkedIn' target='_blank' style='color:#9fdcff'>LinkedIn</a> or <a href='#' id='cvLink' style='color:#9fdcff'>Download my CV</a>.";    
       // wire CV link to modal — set your CV URL below
       setTimeout(() => {
         const cv = document.getElementById('cvLink');
@@ -167,10 +167,10 @@
     achievements.addEventListener('click', () => {
       speechEl.innerHTML = "Achievements: My “career lift-off” — where every role, certification, and milestone represents a stage of propulsion toward leadership.";
       // open a placeholder awards page
-      setTimeout(() => openModal('AI PM Newsletter', 'achievements.html'), 900);
+      setTimeout(() => openModal('Career Journey', 'achievements.html'), 80);
     });
     contributions.addEventListener('click', () => {
-      speechEl.innerHTML = "Contributions: Explore the <a href='https://www.linkedin.com/in/anvildsouza' id='newsletter' target='_blank' style='color:#9fdcff'>AI PM Newsletter</a> or <a href='#' id='comics' style='color:#9fdcff'>The AI PM Diaries</a>.";
+      speechEl.innerHTML = "Contributions: Explore the <a href='https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7327570817578352640' id='newsletter' target='_blank' style='color:#9fdcff'>AI PM Newsletter</a> or <a href='#' id='comics' style='color:#9fdcff'>The AI PM Diaries</a>.";
       // connect to the bookshelf page you already host (replace below with your shelf host)
       //setTimeout(() => openModal('AI PM Series', 'https://gemini.google.com/share/233d69d38d80'), 900);
       setTimeout(() => {
