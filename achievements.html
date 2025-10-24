@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Career Rocket Journey – Achievements</title>
-
+  <title>Achievements – Career Portfolio</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
-      background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000 100%);
+      background: #0b0e19;
       color: #e0e0e0;
       margin: 0;
       overflow-x: hidden;
@@ -17,127 +16,366 @@
     h1 {
       text-align: center;
       font-size: 2.5em;
-      margin-top: 40px;
-      color: #00d4ff;
-      letter-spacing: 1px;
-    }
-
-    .timeline {
-      position: relative;
-      width: 90%;
-      max-width: 800px;
-      margin: 100px auto;
-    }
-
-    .rocket {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      top: -60px;
-      animation: float 2s ease-in-out infinite alternate;
-    }
-
-    .rocket img {
-      width: 80px;
-    }
-
-    @keyframes float {
-      from { transform: translate(-50%, -5px); }
-      to { transform: translate(-50%, 5px); }
-    }
-
-    .milestone {
-      position: relative;
-      background: rgba(255, 255, 255, 0.05);
-      border-left: 3px solid #00d4ff;
-      margin: 60px 0;
-      padding: 20px 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
-    }
-
-    .milestone::before {
-      content: "★";
-      position: absolute;
-      left: -17px;
-      top: 25px;
-      color: #00d4ff;
-      font-size: 20px;
-    }
-
-    .milestone h2 {
-      margin: 0;
-      font-size: 1.4em;
+      margin: 40px 0 10px;
       color: #00d4ff;
     }
 
-    .milestone h3 {
-      margin: 5px 0;
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .tab-button {
+      background: none;
+      border: none;
+      color: #ccc;
       font-size: 1.1em;
-      color: #ffcc70;
+      margin: 0 20px;
+      cursor: pointer;
+      transition: color 0.3s, border-bottom 0.3s;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 8px;
     }
 
-    .milestone p {
-      margin: 8px 0 0;
+    .tab-button.active {
+      color: #00d4ff;
+      border-bottom: 2px solid #00d4ff;
+    }
+
+    .tab-content {
+      display: none;
+      width: 90%;
+      max-width: 1000px;
+      margin: auto;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 20px rgba(0,212,255,0.25);
+    }
+
+    .card h2 {
+      color: #00d4ff;
+      margin: 10px 0 5px;
+      font-size: 1.3em;
+    }
+
+    .card h3 {
+      color: #ffcc70;
+      margin: 5px 0 15px;
+      font-size: 1em;
+      font-weight: normal;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: #111428;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 0 25px rgba(0,212,255,0.25);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content h2 {
+      color: #00d4ff;
+      margin-top: 0;
+    }
+
+    .modal-content h3 {
+      color: #ffcc70;
+      margin-bottom: 15px;
+      font-weight: 400;
+    }
+
+    .modal-content p {
+      color: #d0d0d0;
       line-height: 1.6;
-      color: #cfd8dc;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px; right: 20px;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #ccc;
     }
 
     footer {
       text-align: center;
-      padding: 20px;
-      color: #999;
+      padding: 25px;
+      color: #888;
       font-size: 0.9em;
     }
   </style>
 </head>
+
 <body>
-  <h1>🚀 My Career Rocket Journey</h1>
-  <div class="timeline">
-    <div class="rocket">
-      <img src="https://cdn-icons-png.flaticon.com/512/3212/3212608.png" alt="Rocket Icon" />
-    </div>
+  <h1>🌌 Achievements & Growth Journey</h1>
 
-    <!-- LATEST EXPERIENCE -->
-    <div class="milestone">
-      <h2>Director – AI & Analytics Strategy</h2>
-      <h3>M&G plc | 2024–Present</h3>
-      <p>Led transformation of Asset Management’s AI ecosystem through a regulation-first strategy, orchestrating multi-million portfolio governance and establishing enterprise AI maturity model across global functions.</p>
-    </div>
+  <div class="tabs">
+    <button class="tab-button active" onclick="openTab('experience')">Experience</button>
+    <button class="tab-button" onclick="openTab('academics')">Academics</button>
+    <button class="tab-button" onclick="openTab('certifications')">Certifications</button>
+  </div>
 
-    <div class="milestone">
-      <h2>Product Leader – Responsible AI Platforms</h2>
-      <h3>SAiGE (Sentient Adaptive Intelligence Governance Ecosystem)</h3>
-      <p>Designed a product-agnostic governance ecosystem, embedding trust, compliance, and explainability as strategic differentiators across AI lifecycle management.</p>
-    </div>
+  <!-- EXPERIENCE -->
+  <div id="experience" class="tab-content active">
+    <div class="cards">
+      <div class="card" onclick="openModal('mg')">
+        <h2>M&G Global Services Pvt. Ltd.</h2>
+        <h3>AVP – AI Product Manager</h3>
+        <p>SEP 2023 – Present</p>
+      </div>
 
-    <div class="milestone">
-      <h2>Senior Technical Product Manager</h2>
-      <h3>Global Asset Management</h3>
-      <p>Architected data and AI foundations supporting portfolio management intelligence, improving time-to-insight by 40% and compliance readiness for ESG mandates.</p>
-    </div>
+      <div class="card" onclick="openModal('pps')">
+        <h2>Piramal Pharma Solutions</h2>
+        <h3>Project Manager - AI & Enterprise Platforms</h3>
+        <p>JUL 2020 – SEP 2023</p>
+      </div>
 
-    <div class="milestone">
-      <h2>AI Evangelist & Thought Leader</h2>
-      <h3>Speaker | Mentor | Writer</h3>
-      <p>Founded the “AI PM Diaries” comic series blending humor and philosophy to translate complex AI ethics and governance into accessible storytelling for professionals and executives alike.</p>
-    </div>
+      <div class="card" onclick="openModal('lupin')">
+        <h2>Lupin Limited</h2>
+        <h3>IT Project Manager - AI & M365 Platgforms</h3>
+        <p>JUN 2016 – JUL 2020</p>
+      </div>
 
-    <div class="milestone">
-      <h2>Certifications & Continuous Learning</h2>
-      <h3>PMI | MIT Sloan | Google Cloud | AWS | Microsoft</h3>
-      <p>Certified in AI Product Management, Responsible AI, Cloud Architecture, and Business Leadership — representing a lifelong pursuit of mastery and ethical innovation.</p>
-    </div>
+      <div class="card" onclick="openModal('globalam')">
+        <h2>Pegasus Infocorp</h2>
+        <h3>Senior SharePoint Developer</h3>
+        <p>JUL 2014 – JUN 2016</p>
+      </div>
 
-    <div class="milestone">
-      <h2>Early Career Foundations</h2>
-      <h3>Developer → Product Manager</h3>
-      <p>Built robust analytical and technical foundations transitioning from engineering to product leadership — embodying the principle, “The wise do not rush ahead; they light the path so others may find their way faster.”</p>
+      <div class="card" onclick="openModal('globalam')">
+        <h2>Accenture Limited</h2>
+        <h3>Software Engineering Analyst</h3>
+        <p>JAN 2014 – JUL 2014</p>
+      </div>
+
+      <div class="card" onclick="openModal('globalam')">
+        <h2>Infosys Limited</h2>
+        <h3>System Engineer</h3>
+        <p>DEC 2011 – JAN 2014</p>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- ACADEMICS -->
+  <div id="academics" class="tab-content">
+    <div class="cards">
+      <div class="card" onclick="openModal('edu1')">
+        <h2>Executive MBA – IT Management</h2>
+        <h3>GNIMS, Mumbai</h3>
+        <p>JUN 2019 - MAR 2021</p>
+      </div>
+
+      <div class="card" onclick="openModal('edu2')">
+        <h2>B.E. – Electronics & Telecommunications</h2>
+        <h3>St. Francis Institute of Technology, Mumbai</h3>
+        <p>JUN 2007 - MAY 2011</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <div id="certifications" class="tab-content">
+    <div class="cards">
+
+      <div class="card" onclick="openModal('pspo')">
+        <h2>Scrum.org</h2>
+        <h3>Professional Scrum Product Owner (PSPO 1)</h3>
+        <p>NOV 2024 - Present</p>
+      </div>
+      <div class="card" onclick="openModal('pmi')">
+        <h2>PMI Certified</h2>
+        <h3>Project Management Professional (PMP)</h3>
+        <p>MAR 2018 - Present</p>
+      </div>    
+      <div class="card" onclick="openModal('aws')">
+        <h2>Atlassian</h2>
+        <h3>JIRA Fundamentals Badge</h3>
+      </div>
+      <div class="card" onclick="openModal('aws')">
+        <h2>Smartsheet</h2>
+        <h3>Product Certified User</h3>
+      </div>
+      <div class="card" onclick="openModal('aws')">
+        <h2>British Council</h2>
+        <h3>CEFR C1 - Advanced</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <div id="mg" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('mg')">&times;</span>
+      <h2>M&G Global Services Pvt. Ltd.</h2>
+      <h3>AVP – AI Product Manager</h3>
+      <p>
+        Own a 4-product AI portfolio (Docs, Data, Flow, Insights) serving UK and EMEA business
+        lines within M&G Asset Management’s AI & Analytics division, steering product, platform,
+        and strategy convergence across structured, unstructured, and generative data assets.
+        Lead a 25+ cross-functional team (10 matrix, 15 shared across Eng/DS/QA/Design),
+        driving a $1.3M Opex portfolio focused on accelerating AI-driven productivity, data
+        quality, and insight velocity.
+        Improved internal AI model accuracy from 70% → 85% through context optimization
+        and prompt engineering, enabling measurable business adoption and user trust in AIassisted workflows.
+        Re-architected delivery governance (OKRs, QBRs, decision logs, KPI dashboards),
+        increasing throughput by 25% and improving stakeholder alignment across Technology
+        and Business.
+        Mentor and coach 5 Product Owners in backlog design, experimentation, and
+        storytelling, creating a scalable product operating model across the AI domain.
+        Spearheading the Data Marketplace, M&G’s flagship data discovery and management
+        platform, designed to unify structured and unstructured data with an agentic AI
+        framework, laying the foundation for enterprise-level data strategy and quality
+        governance.
+        Delivered +40% team capacity gain and +30% business impact uplift through disciplined
+        KPI-to-ROI mapping, optimizing product investment and Opex allocation.
+      </p>
+    </div>
+  </div>
+
+  <div id="pps" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('pps')">&times;</span>
+      <h2>Piramal Pharma Solutions</h2>
+      <h3>Project Manager - AI & Enterprise Platforms</h3>
+      <p>
+        Led the Digital Transformation portfolio across Finance, EHS, HR, Strategy, and Quality
+        functions for Piramal Pharma Solutions across 5 geos(US, Canada, UK, Europe and India) as
+        the business-unit-aligned IT organization distinct from Corporate IT, operating with direct
+        business accountability and strategic ownership.
+        Pioneered enterprise digitization with GxP-compliant platforms across 15+ global sites,
+        ensuring USFDA, MHRA, and GDPR compliance while scaling delivery through 5 vendor
+        partners.
+        Launched the CAPEX Bot (GenAI + SAP + Teams), automating the capital approval cycle
+        and improving turnaround efficiency by 50%; recognized at the Trescon Big CIO Show
+        2023 for innovation in AI adoption.
+        Implemented the global digital EHS platform (MySafe by MySetu), replacing legacy WMS
+        systems across manufacturing sites, strengthening site safety compliance for 6,000+
+        employees; awarded “Super Achiever” for impact and execution excellence.
+        Institutionalized low-code and automation practices (Power Platform, RPA, AI POCs),
+        reducing manual workloads by 40% and fostering a citizen development culture across
+        business units.
+        Delivered strategic operational excellence programs, including touchless visitor
+        management and remote audit systems using AR headsets, driving productivity under
+        pandemic constraints.
+        Enabled 80% SharePoint and M365 adoption via a structured change and training program
+        across global business units, embedding collaboration at scale.
+        Managed a blended team of 10 (2 direct, 8 matrix) and 5 global vendors, overseeing
+        portfolio delivery, compliance, and innovation roadmaps.
+      </p>
+    </div>
+  </div>
+
+  <div id="lupin" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('lupin')">&times;</span>
+      <h2>Lupin Limited</h2>
+      <h3>IT Project Manager - AI & M365 Platgforms</h3>
+      <p>
+        Led 4 direct reports and 3 vendor teams; partnered with Microsoft for enterprise-scale M365
+        transformation across 20k+ employees across 3 geos (US, UK and India); managed multi-year
+        digital workplace portfolio (Intranet, BI, LMS, ITSM, HRIS).
+        Owned enterprise rollout of Microsoft 365 ecosystem (SharePoint, Power BI, Teams,
+        Yammer, Streams), achieving 100% adoption and cultural shift toward digital
+        collaboration.
+        Directed migration from Skype for Business to Teams, establishing unified
+        communication standards and improved enterprise-wide productivity.
+        Awarded CEO Recognition for rapid deployment of tax and document management
+        systems supporting critical compliance mandates.
+        Oversaw site IT operations for Aurangabad and Visakhapatnam manufacturing facilities,
+        stepping in during leadership transition to maintain continuity.
+        Conducted on-site audits, stabilized local infrastructure, and coordinated with corporate
+        IT to ensure zero disruption to production and compliance systems.
+        Recognized for demonstrating enterprise ownership beyond functional remit, ensuring
+        operational resilience across geographically distributed units.
+        Built and launched strategic platforms – Global Intranet, GST Compliance Portal, LMS,
+        PMO Dashboards, Shipment Tracker, and NPD Lifecycle BI – driving automation and
+        visibility across global functions.
+        Implemented GST regulatory systems integrating vendor registrations into SAP, ensuring
+        seamless compliance during India’s national tax regime shift.
+        Procured and implemented ITSM platform (Symphony Summit) for Incident, Service, and
+        Asset Management; established governance, workflows, and vendor performance KPIs.
+        Partnered with HR & Finance leadership to develop HRIS applications (360 Talent Review,
+        Employee Recognition, Asset Management), enhancing employee lifecycle management.
+        Mentored 3 junior managers and cross-functional IT leads, building internal product
+        ownership capability and promoting enterprise-wide change adoption.
+        Collaborated with Procurement for vendor evaluation and onboarding, driving costeffective partnerships and SLA adherence.
+      </p>
     </div>
   </div>
 
   <footer>
-    © 2025 Anvil D’Souza | Crafted with integrity, guided by wisdom.
+    © since 2011 Anvil D’Souza | A journey through design, governance, and leadership.
   </footer>
+
+  <script>
+    function openTab(tabName) {
+      const tabs = document.querySelectorAll(".tab-content");
+      const buttons = document.querySelectorAll(".tab-button");
+      tabs.forEach(tab => tab.classList.remove("active"));
+      buttons.forEach(btn => btn.classList.remove("active"));
+      document.getElementById(tabName).classList.add("active");
+      event.target.classList.add("active");
+    }
+
+    function openModal(id) {
+      document.getElementById(id).style.display = "flex";
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+    }
+
+    window.onclick = function(e) {
+      document.querySelectorAll(".modal").forEach(m => {
+        if (e.target === m) m.style.display = "none";
+      });
+    };
+  </script>
 </body>
 </html>
