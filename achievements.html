@@ -171,37 +171,37 @@
   <!-- EXPERIENCE -->
   <div id="experience" class="tab-content active">
     <div class="cards">
-      <div class="card" onclick="openModal('mg')">
+      <div class="card" title="mg" onclick="openModal('mg')">
         <h2>M&G Global Services Pvt. Ltd.</h2>
         <h3>AVP – AI Product Manager</h3>
         <p>SEP 2023 – Present</p>
       </div>
 
-      <div class="card" onclick="openModal('pps')">
+      <div class="card" title="pps" onclick="openModal('pps')">
         <h2>Piramal Pharma Solutions</h2>
         <h3>Project Manager - AI & Enterprise Platforms</h3>
         <p>JUL 2020 – SEP 2023</p>
       </div>
 
-      <div class="card" onclick="openModal('lupin')">
+      <div class="card" title="lupin" onclick="openModal('lupin')">
         <h2>Lupin Limited</h2>
         <h3>IT Project Manager - AI & M365 Platgforms</h3>
         <p>JUN 2016 – JUL 2020</p>
       </div>
 
-      <div class="card" onclick="openModal('globalam')">
+      <div class="card" title="peg" onclick="openModal('peg')">
         <h2>Pegasus Infocorp</h2>
         <h3>Senior SharePoint Developer</h3>
         <p>JUL 2014 – JUN 2016</p>
       </div>
 
-      <div class="card" onclick="openModal('globalam')">
+      <div class="card" title="acc" onclick="openModal('acc')">
         <h2>Accenture Limited</h2>
         <h3>Software Engineering Analyst</h3>
         <p>JAN 2014 – JUL 2014</p>
       </div>
 
-      <div class="card" onclick="openModal('globalam')">
+      <div class="card" title="infy" onclick="openModal('infy')">
         <h2>Infosys Limited</h2>
         <h3>System Engineer</h3>
         <p>DEC 2011 – JAN 2014</p>
@@ -213,13 +213,13 @@
   <!-- ACADEMICS -->
   <div id="academics" class="tab-content">
     <div class="cards">
-      <div class="card" onclick="openModal('edu1')">
+      <div class="card" title="gnims" onclick="openModal('gnims')">
         <h2>Executive MBA – IT Management</h2>
         <h3>GNIMS, Mumbai</h3>
         <p>JUN 2019 - MAR 2021</p>
       </div>
 
-      <div class="card" onclick="openModal('edu2')">
+      <div class="card" title="sfit" onclick="openModal('sfit')">
         <h2>B.E. – Electronics & Telecommunications</h2>
         <h3>St. Francis Institute of Technology, Mumbai</h3>
         <p>JUN 2007 - MAY 2011</p>
@@ -231,25 +231,25 @@
   <div id="certifications" class="tab-content">
     <div class="cards">
 
-      <div class="card" onclick="openModal('pspo')">
+      <div class="card" title="pspo" onclick="openModal('pspo')">
         <h2>Scrum.org</h2>
         <h3>Professional Scrum Product Owner (PSPO 1)</h3>
         <p>NOV 2024 - Present</p>
       </div>
-      <div class="card" onclick="openModal('pmi')">
+      <div class="card" title="pmi" onclick="openModal('pmi')">
         <h2>PMI Certified</h2>
         <h3>Project Management Professional (PMP)</h3>
         <p>MAR 2018 - Present</p>
       </div>    
-      <div class="card" onclick="openModal('aws')">
+      <div class="card" title="atl" onclick="openModal('atl')">
         <h2>Atlassian</h2>
         <h3>JIRA Fundamentals Badge</h3>
       </div>
-      <div class="card" onclick="openModal('aws')">
+      <div class="card" title="smart" onclick="openModal('smart')">
         <h2>Smartsheet</h2>
         <h3>Product Certified User</h3>
       </div>
-      <div class="card" onclick="openModal('aws')">
+      <div class="card" title="bc" onclick="openModal('bc')">
         <h2>British Council</h2>
         <h3>CEFR C1 - Advanced</h3>
       </div>
@@ -370,20 +370,34 @@
       document.getElementById(tabName).classList.add("active");
       event.target.classList.add("active");
     }
-
     function openModal(id) {
       document.getElementById(id).style.display = "flex";
     }
-
     function closeModal(id) {
       document.getElementById(id).style.display = "none";
     }
-
     window.onclick = function(e) {
       document.querySelectorAll(".modal").forEach(m => {
         if (e.target === m) m.style.display = "none";
       });
     };
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Select all clickable comics
+      const tabs = document.querySelectorAll('.card');
+      
+      comics.forEach(comic => {
+        comic.addEventListener('click', function () {
+          const title = comic.getAttribute('title') || 'Unknown_Tab';
+          
+          // Fire Plausible event
+          if (typeof plausible !== 'undefined') {
+            plausible('Career Tab', { props: { name: title } });
+          }
+        });
+      });
+    });
+    
   </script>
 </body>
 </html>
