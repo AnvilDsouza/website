@@ -386,8 +386,8 @@
       // Select all clickable comics
       const tabs = document.querySelectorAll('.card');
       
-      comics.forEach(comic => {
-        comic.addEventListener('click', function () {
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
           const title = comic.getAttribute('title') || 'Unknown_Tab';
           
           // Fire Plausible event
