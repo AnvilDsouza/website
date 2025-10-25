@@ -164,7 +164,7 @@
 
     about.addEventListener('click', () => {
       // change speech text and open LinkedIn/CV choices via modal links
-      speechEl.innerHTML = "About: Visit my <a href='https://www.linkedin.com/in/anvildsouza' id='linkedIn' target='_blank' style='color:#9fdcff'>LinkedIn</a> or <a href='#' id='cvLink' style='color:#9fdcff'>Download my CV</a>.";    
+      speechEl.innerHTML = "About: Visit my <a href='https://www.linkedin.com/in/anvildsouza' id='linkedIn' target='_blank' class='plausible-event-name=LinkedIn+Profile' style='color:#9fdcff'>LinkedIn</a> or <a href='#' id='cvLink' class='plausible-event-name=CV+Download' style='color:#9fdcff'>Download my CV</a>.";    
       // wire CV link to modal — set your CV URL below
       setTimeout(() => {
         const cv = document.getElementById('cvLink');
