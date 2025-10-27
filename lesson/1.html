@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AI PM Diaries — Lesson 1: Stakeholder Alignment (Interactive)</title>
+<link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="icon" href="assets/favicon.ico" type="image/x-icon"> 
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-tlnY55eUHOshMt4VCy0tC.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init();
+</script>
+
+<style>
+  :root{
+    --bg:#0b0f14; --card:#0f1720; --muted:#9aa6b2; --accent:#00d4ff; --glass: rgba(255,255,255,0.03);
+    --maxw:960px;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,var(--bg),#071021);color:#e6eef6}
+  .wrap{max-width:var(--maxw);margin:28px auto;padding:18px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+  header h1{margin:0;font-size:20px;color:var(--accent)}
+  .lead{color:var(--muted);font-size:14px;margin-top:6px}
+  .controls{display:flex;gap:10px;align-items:center}
+  button{background:var(--accent);border:none;color:#001828;padding:10px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+  .reader{background:linear-gradient(180deg,#08111a,#0b1720);border-radius:12px;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,0.6)}
+  .chapter{display:none}
+  .active{display:block}
+  .scene-title{color:var(--accent);font-size:18px;margin-bottom:6px}
+  .scene-text{color:#cfe8fb;line-height:1.6}
+  .choices{margin-top:18px;display:flex;flex-direction:column;gap:10px}
+  .choice{background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);cursor:pointer}
+  .choice:hover{box-shadow:0 12px 40px rgba(0,0,0,0.6);transform:translateY(-3px)}
+  footer{margin-top:18px;color:var(--muted);font-size:13px}
+  .status{display:flex;gap:12px;align-items:center}
+  .stat{background:var(--glass);padding:8px 10px;border-radius:8px;font-weight:700;color:#cbeefe}
+  .small{font-size:13px;color:var(--muted)}
+  .flex{display:flex;gap:12px;align-items:center}
+  .history{margin-top:12px;background:#07121a;padding:10px;border-radius:8px;color:var(--muted);font-size:13px;max-height:180px;overflow:auto}
+  .actions{display:flex;gap:8px;margin-top:12px}
+  .meta{margin-top:12px;color:var(--muted);font-size:13px}
+  .jump{background:#001828;color:var(--accent);border:1px solid rgba(0,212,255,0.06);padding:6px;border-radius:8px}
+  @media (max-width:720px){
+    .choices{gap:8px}
+    .wrap{padding:12px}
+  }
+    /* Modal-like reader for external links */
+    #linkModal {
+      position: fixed; inset:6%; display:none; z-index:10000; background: rgba(0,0,0,0.95); border-radius:12px; overflow:hidden;
+    }
+    #linkModal header { display:flex; justify-content:space-between; align-items:center; padding:10px 14px; color:#fff; background:rgba(255,255,255,0.03); font-weight:600; }
+    #linkModal iframe { width:100%; height: calc(100% - 52px); border:0; display:block; }
+    #linkModal button { background: #222; color:#fff; border:1px solid rgba(255,255,255,0.06); padding:6px 10px; border-radius:8px; cursor:pointer; }
+  </style>
+</head>
+<body>
+
+  <!-- Modal to open dialog -->
+  <div id="linkModal" role="dialog" aria-hidden="true">
+    <header>
+      <div id="linkTitle">External link</div>
+      <div><button id="closeLink">Close ✕</button></div>
+    </header>
+
+	<iframe id="linkFrame" src=""> </iframe>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>AI PM Diaries — <span style="color:#fff">Lesson 1: Stakeholder Alignment</span></h1>
+        <div class="lead">First-person interactive novella — make choices, feel consequences. </div>
+	<div class="lead">Your metrics (Trust / Speed / Ethics) shape the ending.</div>
+	<p class="scene-text small">
+          This book is interactive. After each scene I’ll ask you to choose — the decisions you make change what happens next. Your choices update three attributes: <strong>Trust</strong>, <strong>Speed</strong>, and <strong>Ethics</strong>. They will determine your final ending.
+        </p>
+      </div>
+      <div class="controls">
+        <div class="status">
+          <div class="stat" id="stat-trust">Trust: 50</div>
+          <div class="stat" id="stat-speed">Speed: 50</div>
+          <div class="stat" id="stat-ethics">Ethics: 50</div>
+        </div>      
+    </header>
+
+    <main class="reader" id="reader">
+      <!-- Intro / Cover -->
+      <section id="intro" class="chapter active">
+        <div class="scene-title">Prologue — New Brief, Old Patterns</div>
+        <p class="scene-text">
+          I arrived on a rain-sweet morning and the building smelled faintly of coffee and committee fatigue.  
+          Triad Finance had hired me because they wanted machine intelligence that produced clarity — not confusion. The CEO's slide read: <em>Project Phoenix — Predict churn by Q3. Deliver impact</em>.  
+          I had twenty-one unread messages and one very clear instruction: align everyone or we fail loudly.
+        </p>
+        
+        <div class="choices">
+          <div class="choice" data-next="c1" data-effect='{"trust":0,"speed":0,"ethics":0}'>Turn the page — I’m ready to start Project Phoenix.</div>
+        </div>
+      </section>
+
+      <!-- Chapter 1 -->
+      <section id="c1" class="chapter">
+        <div class="scene-title">Chapter 1 — The Ask</div>
+        <p class="scene-text">
+          I was shown into a glass-walled room where the CEO, Vikram, was already mid-gesture. He likes gestures; they make his decisions feel theatrical. “We want churn prediction,” he said, as if the words were currency. “I don't want a prototype—show me impact.”  
+          Beside him, Rohit (CTO) tapped the vendor deck on his tablet like a metronome. Maya, head of data, looked exhausted but politely hopeful. Neha from product marketing asked whether the model should trigger retention campaigns or inform pricing.
+        </p>
+        <p class="scene-text">
+          My first move mattered. If I invited everyone into a single kickoff, I might get alignment but also a febrile room of competing demands. If I spoke with key stakeholders one-on-one, I might build strong alliances but lose perceived transparency. The vendor rep had a demo scheduled for tomorrow—fast results on a silver platter.
+        </p>
+
+        <div class="choices">
+          <div class="choice" data-next="c2a" data-effect='{"trust":-5,"speed":10,"ethics":-2}'>
+            A — Run the vendor demo tomorrow. Speed matters; we’ll show quick impact and worry about alignment later.
+          </div>
+          <div class="choice" data-next="c2b" data-effect='{"trust":5,"speed":-5,"ethics":2}'>
+            B — Do one-on-one stakeholder interviews first. Build trust and listen; speed can follow.
+          </div>
+          <div class="choice" data-next="c2c" data-effect='{"trust":0,"speed":0,"ethics":1}'>
+            C — Call a short kickoff with all stakeholders but frame the session as discovery: no decisions, only questions.
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 2A: Vendor -->
+      <section id="c2a" class="chapter">
+        <div class="scene-title">Chapter 2A — The Vendor Mirage</div>
+        <p class="scene-text">
+          I let Rohit push the vendor demo. The theatre of product shows is intoxicating: slick slides, pseudo-science charts, and a demo that predicted churn for a sample dataset with jaw-dropping accuracy. The board liked the numbers. I tasted victory—until integration started.
+        </p>
+        <p class="scene-text">
+          The vendor model was black-boxed and required PII which our compliance team flagged. Worse: when we ran it against live data, performance tanked. The board wanted answers. Maya wanted time. I had to choose whether to double-down with a co-built contract or cut ties and build internal capability.
+        </p>
+
+        <div class="choices">
+          <div class="choice" data-next="c3e" data-effect='{"trust":-8,"speed":-5,"ethics":-3}'>
+            A — Negotiate a co-build with the vendor (shared accountability). Keep their momentum and buy engineering time.
+          </div>
+          <div class="choice" data-next="c3f" data-effect='{"trust":2,"speed":-10,"ethics":4}'>
+            B — Cancel and build internally. Slow, but we control the data and privacy.
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 2B: One-on-ones -->
+      <section id="c2b" class="chapter">
+        <div class="scene-title">Chapter 2B — The Quiet Work</div>
+        <p class="scene-text">
+          I took Maya and Neha aside that afternoon. Maya walked me through label drift: churn labels weren’t churn; they were billing quirks and seasonal noise. Neha told stories of losing customers because of heavy-handed retention emails. Through individual conversations, I built a map: goals, fears, incentives.
+        </p>
+        <p class="scene-text">
+          That evening I had a smaller list of clear, conflicting objectives—and two possible operational moves: design a narrow MVP for high-value users, or demand a broad product that satisfied marketing and sales at the risk of complexity.
+        </p>
+
+        <div class="choices">
+          <div class="choice" data-next="c3c" data-effect='{"trust":8,"speed":-5,"ethics":3}'>
+            A — Define a narrow MVP: target the high-value segment with a simple intervention.
+          </div>
+          <div class="choice" data-next="c3d" data-effect='{"trust":-3,"speed":5,"ethics":-1}'>
+            B — Scope broadly to appease Marketing and Sales. Bigger rollout, faster top-line buzzy numbers.
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 2C: Kickoff -->
+      <section id="c2c" class="chapter">
+        <div class="scene-title">Chapter 2C — The Roundtable</div>
+        <p class="scene-text">
+          The discovery kickoff was an awkward dance of competing agendas. I asked questions and wrote them on a board, prioritizing impact, speed, and risk. There was heat, but no decisions. I left with clearer problem statements and an uneasy sense that the board expects visible progress.
+        </p>
+        <p class="scene-text">
+          Now I had to choose whether to formalize a quick pilot with basic safeguards, or take the team through a formal discovery sprint that might calm the room but slow the calendar.
+        </p>
+
+        <div class="choices">
+          <div class="choice" data-next="c3c" data-effect='{"trust":4,"speed":-4,"ethics":2}'>
+            A — Run a short discovery sprint: structured interviews, prototypes, and user validation.
+          </div>
+          <div class="choice" data-next="c3a" data-effect='{"trust":-4,"speed":8,"ethics":-2}'>
+            B — Start a pilot quickly to show progress; we'll patch the governance later.
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 3E: Co-build with vendor -->
+      <section id="c3e" class="chapter">
+        <div class="scene-title">Chapter 3E — Contracts & Compromises</div>
+        <p class="scene-text">
+          Negotiating a co-build is a political beard-trimming exercise. Legal wants indemnities; vendor asks for exclusivity. I offered a tight SLA, data isolation, and co-developed explainability modules. The vendor agreed reluctantly. We gained speed but took on complexity—and a soft sharing of blame.
+        </p>
+        <p class="scene-text">
+          Months later, a production incident revealed an unfair score against a minority segment. Customers complained. Now, with smoke in the air, I must choose how to respond publicly.
+        </p>
+
+        <div class="choices">
+          <div class="choice" data-next="c4a" data-effect='{"trust":-10,"speed":4,"ethics":-8}'>
+            A — Quiet patch and proceed; the board wants no headlines.
+          </div>
+          <div class="choice" data-next="c4b" data-effect='{"trust":12,"speed":-6,"ethics":10}'>
+            B — Publicly disclose, apologize, and open a third-party audit.
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 3F: Cancel and build internal -->
+      <section id="c3f" class="chapter">
+        <div class="scene-title">Chapter 3F — Building the House</div>
+        <p class="scene-text">
+          We cancelled the vendor and started building a small in-house model. It was messy. There were late nights, spicy conversations, and a growing sense of craftsmanship. We designed the pipeline with privacy-first principles. The first prototype was modest but honest.
+        </p>
+        <p class="scene-text">
+          The board initially frowns at the slower pace; yet when the prototype is interpretable and conservative in decisions, the compliance team nods. A choice appears: push for a tighter MLOps program (governance & automation), or accelerate feature scope to please revenue now.
+        </p>
+
+        <div class="choices">
+          <div class="choice" data-next="c4a" data-effect='{"trust":8,"speed":-8,"ethics":8}'>
+            A — Invest in MLOps and governance; this is a long game.
+          </div>
+          <div class="choice" data-next="c4b" data-effect='{"trust":-4,"speed":6,"ethics":-3}'>
+            B — Prioritize product features and iterate — show value quickly.
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 3C: MVP path -->
+      <section id="c3c" class="chapter">
+        <div class="scene-title">Chapter 3C — The MVP Revelation</div>
+        <p class="scene-text">
+          We launched a tiny pilot focused on a high-LTV segment. The intervention was a gentle retention nudger — timely, tailored, and reversible. The initial metrics looked promising: engagement up, retention slightly better, and marketing finally had a case study.
+        </p>
+        <p class="scene-text">
+          But now the temptation: institutionalize this small success across all segments, or keep it narrow and refine? One leads to broad exposure and faster headlines; the other builds a stable, explainable base.
+        </p>
+
+        <div class="choices">
+          <div class="choice" data-next="c4c" data-effect='{"trust":6,"speed":-4,"ethics":4}'>
+            A — Systematize what worked: build playbooks and a conservative scaling plan.
+          </div>
+          <div class="choice" data-next="c4d" data-effect='{"trust":-2,"speed":7,"ethics":-1}'>
+            B — Scale quickly and apply the intervention to all customers.
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 3D: Feature Avalanche -->
+      <section id="c3d" class="chapter">
+        <div class="scene-title">Chapter 3D — The Feature Avalanche</div>
+        <p class="scene-text">
+          We said "yes" to many features. The roadmap turned into a Christmas tree of requests: retention emails, pricing experiments, predictive product recommendations. Engineering velocity frayed. Meetings multiplied. People started telling me stories of more meetings than work.
+        </p>
+        <p class="scene-text">
+          I can try a hard reset with the leadership (painful but clarifying) or keep accommodating and hope the engineers find their groove.
+        </p>
+
+        <div class="choices">
+          <div class="choice" data-next="c4e" data-effect='{"trust":-4,"speed":-6,"ethics":1}'>
+            A — Call a candid roadmap reset and demand a single north star metric.
+          </div>
+          <div class="choice" data-next="c4b" data-effect='{"trust":2,"speed":5,"ethics":-2}'>
+            B — Keep accommodating — momentum is political currency.
+          </div>
+        </div>
+      </section>
+
+
+	<!-- Chapter 3D: Feature Avalanche -->
+      <section id="ending" class="chapter">
+		<div class="scene-title">Thank You — Your Freemium Journey Ends Here!</div>
+        <p class="scene-text">
+          🌟 Thank you, Trailblazer! Your journey has been logged into the PM multiverse.
+
+Ensure you fill in the Survey form. You’ll receive an update soon — perhaps even a secret ending before anyone else does.
+
+Until then… stay curious, stay calm, and remember:
+Every stakeholder alignment is just another boss battle.
+        </p>
+
+
+            </section>
+
+      <div class="history" id="history" style="display:none"></div>
+      <div class="actions" style="margin-top:12px">
+        <button id="btn-summary" class="ghost">View Choice Summary</button>
+	<button id="btn-history" class="ghost">History</button>
+        <button id="btn-restart" class="ghost">Restart</button>
+      </div>
+
+    </main>
+
+    <footer>
+      <div class="small">© 2025 AI PM Diaries — Interactive prototype. Choices are fictional but reflect real trade-offs in AI product leadership.</div>
+    </footer>
+  </div>
+
+<script>
+/* --- State & Utilities --- */
+const initialState = {trust:50,speed:50,ethics:50,choices:[],current:'intro',ending:null};
+let state = JSON.parse(localStorage.getItem('apm_book1_state') || 'null') || initialState;
+
+function saveState(){ localStorage.setItem('apm_book1_state', JSON.stringify(state)); updateUI(); }
+function resetState(){ state = JSON.parse(JSON.stringify(initialState)); saveState(); }
+
+// Update stat UI
+function updateUI(){
+  document.getElementById('stat-trust').innerText = 'Trust: '+state.trust;
+  document.getElementById('stat-speed').innerText = 'Speed: '+state.speed;
+  document.getElementById('stat-ethics').innerText = 'Ethics: '+state.ethics;
+  // history
+  const h = document.getElementById('history');
+  h.innerHTML = '<strong>Choice history</strong><br/>' + (state.choices.length? state.choices.map((c,i)=> (i+1)+'. '+c.from+' → '+c.choice+' → '+c.to).join('<br>') : '<em>No choices yet</em>');
+}
+
+/* --- Navigation / Chapters --- */
+function showChapter(id){
+  
+  // hide all chapters
+  document.querySelectorAll('.chapter').forEach(e=> e.classList.remove('active'));
+  // show the requested chapter
+  const el = document.getElementById(id);
+  if(!el){ alert('Chapter not found: '+id); return; }
+  el.classList.add('active');
+  state.current = id;
+  saveState();
+  // analytics hook placeholder:
+  // plausible && plausible('Node_Visited', {props:{nodeId:id}});
+}
+
+document.querySelectorAll('.choice').forEach(btn=>{
+  btn.addEventListener('click', (e) => {
+    var next = btn.dataset.next;
+    const effect = JSON.parse(btn.dataset.effect || '{"trust":0,"speed":0,"ethics":0}');
+    const from = state.current;
+    const choiceText = btn.innerText.trim().slice(0,120);
+
+    //Freemium
+    if(next.includes('4')) { 
+    e.preventDefault(); 
+    next = "ending";
+    openModal('The AI PM Diaries', 'https://forms.office.com/r/TC7UY1HpXj?embed=true');
+    }
+
+    // apply effects
+    state.trust = Math.max(0, Math.min(100, state.trust + (effect.trust||0)));
+    state.speed = Math.max(0, Math.min(100, state.speed + (effect.speed||0)));
+    state.ethics = Math.max(0, Math.min(100, state.ethics + (effect.ethics||0)));
+    // record choice
+    state.choices.push({from,choice:choiceText,to:next,ts:new Date().toISOString()});
+    // if next is an ending we store
+    if(next && next.startsWith('ending-')) state.ending = next;
+    saveState();
+    // show next
+    if(next==='done'){ /* noop for download button */ return; }
+    showChapter(next);
+  });
+});
+
+// initial show
+showChapter(state.current);
+
+/* --- Buttons --- */
+document.getElementById('btn-restart').addEventListener('click', ()=> {
+  if(confirm('Restart the story and clear progress?')){ resetState(); showChapter('intro'); }
+});
+document.getElementById('btn-history').addEventListener('click', ()=> {
+  const h = document.getElementById('history');
+  h.style.display = h.style.display === 'none' ? 'block' : 'none';
+});
+/*document.getElementById('btn-jump').addEventListener('click', ()=> {
+  const v = document.getElementById('jump-to').value.trim();
+  if(v) showChapter(v);
+});*/
+document.getElementById('btn-summary').addEventListener('click', ()=> {
+  alert( buildSummaryText() );
+});
+
+// After closing the book: epilogue text
+function buildSummaryText(){
+  const lines = [];
+  lines.push('AI PM Diaries — Playthrough Summary');
+  lines.push('Date: '+ new Date().toLocaleString());
+  lines.push('');
+  lines.push('Stats: Trust='+state.trust+', Speed='+state.speed+', Ethics='+state.ethics);
+  lines.push('');
+  if(state.choices.length){
+    lines.push('Choices:');
+    state.choices.forEach((c,i)=> lines.push((i+1)+'. '+c.from+' → '+c.choice+' → '+c.to));
+  } else {
+    lines.push('No choices recorded.');
+  }
+  if(state.ending) lines.push('', 'Ending reached: '+state.ending);
+  return lines.join('\\n');
+}
+
+
+
+// When epilogue displayed, fill appropriate text
+function prepareEpilogue(){
+  const el = document.getElementById('epilogue-text');
+  let ending = state.ending;
+  if(!ending){
+    // compute heuristic if no explicit ending: evaluate metrics
+    if(state.trust>=70 && state.ethics>=65) ending='ending-architect';
+    else if(state.speed>=70 && state.trust<60) ending='ending-performer';
+    else if(state.trust>=60 && state.speed>=45 && state.ethics>=40) ending='ending-builder';
+    else ending='ending-evangelist';
+    state.ending = ending;
+  }
+  // pick summary text by ending
+  const map = {
+    'ending-architect':'You became The Architect — an organizational systems leader who built repeatable, governance-driven AI across the company.',
+    'ending-builder':'You stayed hands-on — The Builder. Your craftsmanship created a loved product; the company slowly learned to scale.',
+    'ending-performer':'You chose speed and delivery — The Performer. You shipped wins but learned that short-term wins can leave governance gaps.',
+    'ending-evangelist':'You found your voice — The Evangelist. Lessons turned into words, and you began shaping a wider community.'
+  };
+  el.innerText = map[ending] + "\\n\\nMetrics at close: Trust="+state.trust+", Speed="+state.speed+", Ethics="+state.ethics+"\\n\\nReview your choices or restart to explore alternate paths.";
+  saveState();
+}
+
+// When user navigates to epilogue, prep it
+document.addEventListener('click', (ev)=>{
+  const target = ev.target;
+  if(target.closest('.chapter') && target.closest('.chapter').id==='epilogue'){
+    prepareEpilogue();
+  }
+});
+
+// Accessibility: keyboard navigation for choices (Enter to choose first)
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter'){
+    const chapter = document.querySelector('.chapter.active');
+    if(!chapter) return;
+    const firstChoice = chapter.querySelector('.choice');
+    if(firstChoice) firstChoice.click();
+  };
+  if (e.key === 'Escape') closeModal();
+});
+
+    // Modal handling
+    const linkModal = document.getElementById('linkModal');
+    const linkFrame = document.getElementById('linkFrame');
+    const linkTitle = document.getElementById('linkTitle');
+    document.getElementById('closeLink').addEventListener('click', closeModal);
+    function openModal(title, url) {
+      linkTitle.textContent = title;
+      // Start timeout fallback in case site blocks embedding
+      linkFrame.src = url;
+      linkModal.style.display = 'block';
+      linkModal.setAttribute('aria-hidden', 'false');
+      // fallback: if not loaded in 2200ms, open in new tab and close modal
+      const t = setTimeout(() => { window.open(url, '_blank', 'noopener'); closeModal(); }, 2200);
+      linkFrame.onload = () => clearTimeout(t);
+    }
+    function closeModal() {
+      linkFrame.src = '';
+      linkModal.style.display = 'none';
+      linkModal.setAttribute('aria-hidden', 'true');
+    }
+
+/* Initialize UI on load */
+updateUI();
+</script>
+</body>
+</html>
