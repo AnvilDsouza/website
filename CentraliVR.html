@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Centrali VR — Immersive Analytics Hub</title>
+    <meta name="description" content="Centrali VR: The immersive 3D analytics hub that brings all your dashboards, BI reports, and AI assistant into one virtual space." />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.2/dist/aframe-environment-component.min.js"></script>
+    <style>
+      body { margin: 0; font-family: 'Segoe UI', sans-serif; }
+      #overlay {
+        position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.6);
+        color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 14px;
+      }
+      table {
+        border-collapse: collapse; width: 90%; margin: 20px auto; font-size: 15px;
+      }
+      th, td {
+        border: 1px solid #ccc; padding: 10px; text-align: left;
+      }
+      th { background: #111; color: #fff; }
+      caption { font-weight: bold; margin-bottom: 10px; }
+    </style>
+  </head>
+  <body>
+    <div id="overlay">
+      <h3>Centrali VR</h3>
+      <p>Gaze or click on a dashboard to open.  
+      Say “Ali, show revenue trends” to query AI assistant.</p>
+    </div>
+
+    <a-scene background="color: #101018" environment="preset: forest; lighting: point; ground: flat; groundColor: #222;">
+      <!-- User Rig -->
+      <a-entity id="rig" position="0 1.6 4">
+        <a-entity camera look-controls wasd-controls></a-entity>
+      </a-entity>
+
+      <!-- Central Logo -->
+      <a-text value="Centrali VR" color="#00FFFF" position="0 3 -3" align="center" width="6"></a-text>
+      <a-text value="Immersive Analytics Hub" color="#ccc" position="0 2.7 -3" align="center" width="6"></a-text>
+
+      <!-- Dashboard Panels -->
+      <a-plane id="dash1" position="-2 1.5 -3" width="2.5" height="1.5" color="#1E90FF"
+               material="shader: flat" class="clickable"
+               event-set__click="_target: #dash1; color: #00CED1">
+        <a-text value="Sales Dashboard" color="#fff" align="center" position="0 0 0.1"></a-text>
+      </a-plane>
+
+      <a-plane id="dash2" position="0 1.5 -3" width="2.5" height="1.5" color="#32CD32"
+               material="shader: flat" class="clickable"
+               event-set__click="_target: #dash2; color: #228B22">
+        <a-text value="Customer Insights" color="#fff" align="center" position="0 0 0.1"></a-text>
+      </a-plane>
+
+      <a-plane id="dash3" position="2 1.5 -3" width="2.5" height="1.5" color="#FF8C00"
+               material="shader: flat" class="clickable"
+               event-set__click="_target: #dash3; color: #FF4500">
+        <a-text value="Financial Overview" color="#fff" align="center" position="0 0 0.1"></a-text>
+      </a-plane>
+
+      <!-- Cross-filter visual animation (link lines) -->
+      <a-entity line="start: -2 1.5 -3; end: 0 1.5 -3; color: #00FFFF"></a-entity>
+      <a-entity line="start: 0 1.5 -3; end: 2 1.5 -3; color: #00FFFF"></a-entity>
+
+      <!-- Ali — GPT Assistant Avatar -->
+      <a-entity id="ali" position="0 1 -1.5">
+        <a-sphere radius="0.3" color="#FFD700" animation="property: rotation; to: 0 360 0; loop: true; dur: 8000"></a-sphere>
+        <a-text value="Ali — Your AI Assistant" color="#fff" align="center" position="0 -0.6 0" width="2"></a-text>
+      </a-entity>
+
+      <!-- Lighting -->
+      <a-entity light="type: point; color: #ffffff; intensity: 1.2" position="0 4 1"></a-entity>
+      <a-entity light="type: ambient; color: #555"></a-entity>
+
+      <!-- Ground -->
+      <a-plane rotation="-90 0 0" width="20" height="20" color="#111"></a-plane>
+    </a-scene>
+
+    <!-- Feature Summary Table -->
+    <table>
+      <caption>Centrali VR: Key Features & Interactions</caption>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Description</th>
+          <th>User Interaction</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Immersive 3D Room</td>
+          <td>Users step into a spatial data environment with dashboards positioned around them.</td>
+          <td>Move with WASD / gaze navigation.</td>
+        </tr>
+        <tr>
+          <td>Virtual Dashboards</td>
+          <td>Each wall-mounted panel represents a BI report or metric board.</td>
+          <td>Click or gaze to expand or open the dashboard in detail view.</td>
+        </tr>
+        <tr>
+          <td>Cross-Dashboard Filtering</td>
+          <td>Real-time linking between dashboards for synchronized insights.</td>
+          <td>Select a segment on one panel to update others instantly.</td>
+        </tr>
+        <tr>
+          <td>Ali — GPT Assistant</td>
+          <td>AI avatar that answers questions or generates insights conversationally.</td>
+          <td>Speak or type “Ali, show quarterly growth by region.”</td>
+        </tr>
+        <tr>
+          <td>Multi-Source Access</td>
+          <td>Integrates dashboards, BI tools, and data lakes in one VR scene.</td>
+          <td>Access all analytics via a single immersive portal.</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
