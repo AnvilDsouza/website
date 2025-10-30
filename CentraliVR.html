@@ -1,118 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Centrali VR — Immersive Analytics Hub</title>
-    <meta name="description" content="Centrali VR: The immersive 3D analytics hub that brings all your dashboards, BI reports, and AI assistant into one virtual space." />
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.2/dist/aframe-environment-component.min.js"></script>
-    <style>
-      body { margin: 0; font-family: 'Segoe UI', sans-serif; }
-      #overlay {
-        position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.6);
-        color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 14px;
-      }
-      table {
-        border-collapse: collapse; width: 90%; margin: 20px auto; font-size: 15px;
-      }
-      th, td {
-        border: 1px solid #ccc; padding: 10px; text-align: left;
-      }
-      th { background: #111; color: #fff; }
-      caption { font-weight: bold; margin-bottom: 10px; }
-    </style>
-  </head>
-  <body>
-    <div id="overlay">
-      <h3>Centrali VR</h3>
-      <p>Gaze or click on a dashboard to open.  
-      Say “Ali, show revenue trends” to query AI assistant.</p>
-    </div>
+<head>
+  <meta charset="UTF-8">
+  <title>Centrali VR — Immersive Analytics Hub</title>
+  <meta name="description" content="Centrali VR: Immersive 3D analytics hub with dashboards and AI assistant in VR.">
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.2/dist/aframe-environment-component.min.js"></script>
+  <style>
+    body { margin:0; font-family: 'Segoe UI', sans-serif; background:#000; color:#ddd; }
+    #overlay {
+      position: fixed; top:10px; left:10px; background: rgba(0,0,0,0.7);
+      color: #fff; padding:12px 18px; border-radius:8px; font-size:14px; z-index:1000;
+    }
+    .button-ui {
+      display: inline-block; padding:6px 12px; background:#0066CC;
+      color:#fff; border:none; border-radius:4px; cursor:pointer;
+    }
+    .button-ui:focus { outline:none; background:#005bb5; }
+  </style>
+</head>
+<body>
+  <div id="overlay">
+    <h3 style="margin:0 0 8px 0;">Centrali VR</h3>
+    <p>Use WASD or controller to move. <br>
+       Gaze or click a panel to open. <br>
+       Call the assistant “Ali” from the panel.</p>
+  </div>
 
-    <a-scene background="color: #101018" environment="preset: forest; lighting: point; ground: flat; groundColor: #222;">
-      <!-- User Rig -->
-      <a-entity id="rig" position="0 1.6 4">
-        <a-entity camera look-controls wasd-controls></a-entity>
+  <a-scene background="color: #111122"
+           environment="preset: factory; ground: flat; groundColor: #222; lighting: soft;">
+    <!-- Rig & Camera Setup -->
+    <a-entity id="rig" position="0 1.6 4">
+      <a-entity camera look-controls wasd-controls>
+        <a-cursor id="cursor" raycaster="objects: .clickable"
+                   fuse="true" fuse-timeout="500"
+                   material="color: #06f; shader: flat; opacity:0.8"></a-cursor>
       </a-entity>
+    </a-entity>
 
-      <!-- Central Logo -->
-      <a-text value="Centrali VR" color="#00FFFF" position="0 3 -3" align="center" width="6"></a-text>
-      <a-text value="Immersive Analytics Hub" color="#ccc" position="0 2.7 -3" align="center" width="6"></a-text>
+    <!-- Title Text -->
+    <a-text value="Centrali VR" color="#00FFFF"
+             position="0 3 -3" align="center" width="6"></a-text>
+    <a-text value="Immersive Analytics Hub" color="#ccc"
+             position="0 2.7 -3" align="center" width="6"></a-text>
 
-      <!-- Dashboard Panels -->
-      <a-plane id="dash1" position="-2 1.5 -3" width="2.5" height="1.5" color="#1E90FF"
-               material="shader: flat" class="clickable"
-               event-set__click="_target: #dash1; color: #00CED1">
-        <a-text value="Sales Dashboard" color="#fff" align="center" position="0 0 0.1"></a-text>
-      </a-plane>
+    <!-- Dashboard Panel Component Definition -->
+    <script>
+      AFRAME.registerComponent('dashboard-panel', {
+        schema: {
+          title: {type:'string', default:'Dashboard'},
+          color: {type:'color', default:'#1E90FF'}
+        },
+        init: function () {
+          const el = this.el;
+          const data = this.data;
+          // Add text label
+          const text = document.createElement('a-text');
+          text.setAttribute('value', data.title);
+          text.setAttribute('color', '#fff');
+          text.setAttribute('align', 'center');
+          text.setAttribute('position', '0 0 0.1');
+          text.setAttribute('width', 2.5);
+          el.appendChild(text);
 
-      <a-plane id="dash2" position="0 1.5 -3" width="2.5" height="1.5" color="#32CD32"
-               material="shader: flat" class="clickable"
-               event-set__click="_target: #dash2; color: #228B22">
-        <a-text value="Customer Insights" color="#fff" align="center" position="0 0 0.1"></a-text>
-      </a-plane>
+          // Click behaviour
+          el.setAttribute('class','clickable');
+          el.addEventListener('click', () => {
+            console.log('Opening panel:', data.title);
+            // TODO: trigger cross-filtering logic
+            el.emit('panel-selected', {title: data.title});
+          });
 
-      <a-plane id="dash3" position="2 1.5 -3" width="2.5" height="1.5" color="#FF8C00"
-               material="shader: flat" class="clickable"
-               event-set__click="_target: #dash3; color: #FF4500">
-        <a-text value="Financial Overview" color="#fff" align="center" position="0 0 0.1"></a-text>
-      </a-plane>
+          // Visual feedback
+          el.addEventListener('mouseenter', () => {
+            el.setAttribute('material', 'color', shadeColor(data.color, -10));
+          });
+          el.addEventListener('mouseleave', () => {
+            el.setAttribute('material', 'color', data.color);
+          });
+        }
+      });
 
-      <!-- Cross-filter visual animation (link lines) -->
-      <a-entity line="start: -2 1.5 -3; end: 0 1.5 -3; color: #00FFFF"></a-entity>
-      <a-entity line="start: 0 1.5 -3; end: 2 1.5 -3; color: #00FFFF"></a-entity>
+      // simple helper to darken color
+      function shadeColor(color, percent) {
+        const f = parseInt(color.slice(1),16),
+              t = percent<0 ? 0 : 255,
+              p = percent<0 ? percent*-1 : percent;
+        const R = f>>16, G = f>>8&0x00FF, B = f&0x0000FF;
+        const newR = Math.round((t-R)*p/100)+R;
+        const newG = Math.round((t-G)*p/100)+G;
+        const newB = Math.round((t-B)*p/100)+B;
+        return "#" + (0x1000000 + (newR<<16) + (newG<<8) + newB).toString(16).slice(1);
+      }
+    </script>
 
-      <!-- Ali — GPT Assistant Avatar -->
-      <a-entity id="ali" position="0 1 -1.5">
-        <a-sphere radius="0.3" color="#FFD700" animation="property: rotation; to: 0 360 0; loop: true; dur: 8000"></a-sphere>
-        <a-text value="Ali — Your AI Assistant" color="#fff" align="center" position="0 -0.6 0" width="2"></a-text>
+    <!-- Dashboard Panels -->
+    <a-plane dashboard-panel="title: Sales Dashboard; color: #1E90FF"
+             position="-2 1.5 -3" width="2.5" height="1.5"
+             material="shader: flat; color: #1E90FF"></a-plane>
+
+    <a-plane dashboard-panel="title: Customer Insights; color: #32CD32"
+             position="0 1.5 -3" width="2.5" height="1.5"
+             material="shader: flat; color: #32CD32"></a-plane>
+
+    <a-plane dashboard-panel="title: Financial Overview; color: #FF8C00"
+             position="2 1.5 -3" width="2.5" height="1.5"
+             material="shader: flat; color: #FF8C00"></a-plane>
+
+    <!-- Assistant “Ali” Panel -->
+    <a-entity id="ali" position="0 0.8 -2">
+      <a-sphere radius="0.3" color="#FFD700"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 8000"></a-sphere>
+      <a-text value="Ali — Your AI Assistant"
+              color="#fff" align="center" position="0 -0.6 0" width="2"></a-text>
+
+      <!-- Floating UI board for input -->
+      <a-entity position="0 0.3 0" rotation="0 0 0">
+        <a-plane id="aliUI" width="1.6" height="0.6"
+                 material="shader: flat; color: #222; opacity:0.9">
+          <a-text value="Ask Ali:" color="#0CF" align="left"
+                  position="-0.75 0.15 0.01" width="1.4"></a-text>
+          <a-text id="aliInput" value="(say or type here…)" color="#aaa"
+                  align="left" position="-0.75 -0.05 0.01" width="1.4"></a-text>
+        </a-plane>
       </a-entity>
+    </a-entity>
 
-      <!-- Lighting -->
-      <a-entity light="type: point; color: #ffffff; intensity: 1.2" position="0 4 1"></a-entity>
-      <a-entity light="type: ambient; color: #555"></a-entity>
+    <!-- Lighting -->
+    <a-entity light="type: point; color: #ffffff; intensity: 1.2"
+              position="0 4 1"></a-entity>
+    <a-entity light="type: ambient; color: #444"></a-entity>
 
-      <!-- Ground -->
-      <a-plane rotation="-90 0 0" width="20" height="20" color="#111"></a-plane>
-    </a-scene>
+    <!-- Ground -->
+    <a-plane rotation="-90 0 0" width="20" height="20" color="#111"></a-plane>
 
-    <!-- Feature Summary Table -->
-    <table>
-      <caption>Centrali VR: Key Features & Interactions</caption>
-      <thead>
-        <tr>
-          <th>Feature</th>
-          <th>Description</th>
-          <th>User Interaction</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Immersive 3D Room</td>
-          <td>Users step into a spatial data environment with dashboards positioned around them.</td>
-          <td>Move with WASD / gaze navigation.</td>
-        </tr>
-        <tr>
-          <td>Virtual Dashboards</td>
-          <td>Each wall-mounted panel represents a BI report or metric board.</td>
-          <td>Click or gaze to expand or open the dashboard in detail view.</td>
-        </tr>
-        <tr>
-          <td>Cross-Dashboard Filtering</td>
-          <td>Real-time linking between dashboards for synchronized insights.</td>
-          <td>Select a segment on one panel to update others instantly.</td>
-        </tr>
-        <tr>
-          <td>Ali — GPT Assistant</td>
-          <td>AI avatar that answers questions or generates insights conversationally.</td>
-          <td>Speak or type “Ali, show quarterly growth by region.”</td>
-        </tr>
-        <tr>
-          <td>Multi-Source Access</td>
-          <td>Integrates dashboards, BI tools, and data lakes in one VR scene.</td>
-          <td>Access all analytics via a single immersive portal.</td>
-        </tr>
-      </tbody>
-    </table>
-  </body>
+  </a-scene>
+
+  <script>
+    // Example cross-filter event listener
+    document.querySelector('a-scene').addEventListener('panel-selected', (evt) => {
+      const title = evt.detail.title;
+      console.log('Cross-filter triggered from:', title);
+      // TODO: call backend analytics engine to filter other dashboards
+      // For now show simple feedback
+      alert('Filtering linked dashboards based on: ' + title);
+    });
+  </script>
+</body>
 </html>
