@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFSI Process Diagnostic: 5 Structural Blind Spots</title>
+    <style>
+        :root {
+            /* Palette */
+            --bg-dark: #0f172a;
+            --bg-light: #f8fafc;
+            --text-main: #f1f5f9;
+            --text-contrast: #1e293b;
+            --accent-red: #ef4444; /* Problem color */
+            --accent-green: #22c55e; /* Solution color */
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 50px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- Header & Title Section --- */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            color: var(--accent-red);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 10px auto 0;
+        }
+
+        /* --- Main Layout: Problem (Red) vs Solution (Green) --- */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .problem-column, .solution-column {
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .problem-column { 
+            background: rgba(239, 68, 68, 0.08); /* Light Red BG */
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .solution-column { 
+            background: rgba(34, 197, 94, 0.08); /* Light Green BG */
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .column-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .column-title.problem { color: var(--accent-red); }
+        .column-title.solution { color: var(--accent-green); }
+
+        /* --- Item Styles (Blind Spots / Fixes) --- */
+        .item {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .item-number {
+            font-size: 2rem;
+            font-weight: 800;
+            opacity: 0.1;
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            line-height: 1;
+        }
+
+        .item-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Styling for Problem Items (Red Accent) */
+        .problem-column .item-title { color: var(--accent-red); }
+        .problem-column .item { border-left: 4px solid var(--accent-red); }
+
+        /* Styling for Solution Items (Green Accent) */
+        .solution-column .item-title { color: var(--accent-green); }
+        .solution-column .item { border-left: 4px solid var(--accent-green); }
+
+        .item-description {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        /* --- Impact/Rule Box --- */
+        .detail-box {
+            font-size: 0.85rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .detail-box strong { font-weight: 700; margin-right: 5px; }
+
+        .problem-column .detail-box {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+        }
+        
+        .solution-column .detail-box {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+        }
+
+        /* --- AI/Human Split --- */
+        .value-split {
+            margin-top: 10px;
+            display: flex;
+            gap: 5px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .value-split div {
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .ai-value {
+            background: #14b8a6;
+            color: var(--text-contrast);
+        }
+
+        .human-loop {
+            background: #6366f1;
+            color: var(--text-contrast);
+        }
+
+        /* --- Footer/Summary --- */
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Why BFSI Processes Break</h1>
+        <p class="subtitle">The five structural blind spots that quietly kill speed, consistency, and compliance.</p>
+    </header>
+
+    <div class="main-grid">
+        
+        <div class="problem-column">
+            <h2 class="column-title problem">The 5 Structural Blind Spots 🛑</h2>
+
+            <div class="item">
+                <span class="item-number">1</span>
+                <h3 class="item-title">🧠 Identity Drift</h3>
+                <p class="item-description">Every system creates its own version of the client. Small, unmanaged variations accumulate until no system has a reliable 'Single Source of Truth'.</p>
+                <div class="detail-box">
+                    <strong>Signs:</strong> Repeated KYC mismatches, multiple client profiles, alerts on stale data.
+                </div>
+            </div>
+
+            <div class="item">
+                <span class="item-number">2</span>
+                <h3 class="item-title">⚖️ Risk Fragmentation</h3>
+                <p class="item-description">Risk is treated as departmental property (onboarding risk, lending risk, fraud risk), not an institutional truth.</p>
+                <div class="detail-box">
+                    <strong>Signs:</strong> Systems disagreeing: Onboarding says "Low," Surveillance says "Medium."
+                </div>
+            </div>
+
+            <div class="item">
+                <span class="item-number">3</span>
+                <h3 class="item-title">⚙️ Product–Process Misalignment</h3>
+                <p class="item-description">Products evolve quickly, but the underlying processes and checklists rarely keep pace, leading to manual hacks and mounting technical debt.</p>
+                <div class="detail-box">
+                    <strong>Signs:</strong> Exceptions becoming normal, operations using outdated checklists.
+                </div>
+            </div>
+
+            <div class="item">
+                <span class="item-number">4</span>
+                <h3 class="item-title">📊 Data Incoherence</h3>
+                <p class="item-description">The same critical data fields (e.g., 'Status') are defined differently across various teams and systems.</p>
+                <div class="detail-box">
+                    <strong>Signs:</strong> Duplicate dashboards with different numbers. Lineage questions that no one can answer.
+                </div>
+            </div>
+
+            <div class="item">
+                <span class="item-number">5</span>
+                <h3 class="item-title">🔑 Ownership Ambiguity</h3>
+                <p class="item-description">Everyone owns a piece of the process, but nobody owns the architecture or the mandate to fix systemic issues end-to-end.</p>
+                <div class="detail-box">
+                    <strong>Signs:</strong> Problems persist. Confused escalations. Unclear accountability when failure occurs.
+                </div>
+            </div>
+        </div>
+        
+        <div class="solution-column">
+            <h2 class="column-title solution">The 5 Fixes for Resilience ✅</h2>
+
+            <div class="item">
+                <span class="item-number">1</span>
+                <h3 class="item-title">Define Decisions First</h3>
+                <p class="item-description">Do not design tasks. Define the 5–12 core decisions the process must make. Tasks follow from decisions.</p>
+                <div class="detail-box">
+                    <strong>Rule:</strong> No workflow may be designed before decision logic is defined.
+                </div>
+                <div class="value-split">
+                    <div class="human-loop">👤 Human: Defines Decision Logic</div>
+                </div>
+            </div>
+
+            <div class="item">
+                <span class="item-number">2</span>
+                <h3 class="item-title">Fix Identity Confidence</h3>
+                <p class="item-description">Establish a single, authoritative source for client identity that all dependent systems must reference.</p>
+                <div class="detail-box">
+                    <strong>Rule:</strong> If identity confidence drops, all dependent processes pause.
+                </div>
+                <div class="value-split">
+                    <div class="ai-value">🤖 AI: Continuous Identity Validation</div>
+                </div>
+            </div>
+
+            <div class="item">
+                <span class="item-number">3</span>
+                <h3 class="item-title">Standardise Risk Logic</h3>
+                <p class="item-description">Agree on the single, institution-wide version of 'client risk.' Automate propagation across systems.</p>
+                <div class="detail-box">
+                    <strong>Rule:</strong> Risk changes must automatically update access and monitoring.
+                </div>
+                <div class="value-split">
+                    <div class="ai-value">🤖 AI: Risk Propagation & Scoring</div>
+                </div>
+            </div>
+
+            <div class="item">
+                <span class="item-number">4</span>
+                <h3 class="item-title">Rebuild Around Product Truth</h3>
+                <p class="item-description">Processes must be modular and match the current blueprint of the products they serve.</p>
+                <div class="detail-box">
+                    <strong>Rule:</strong> Every product must carry its own process blueprint.
+                </div>
+                <div class="value-split">
+                    <div class="human-loop">👤 Human: Product & Process Alignment</div>
+                </div>
+            </div>
+
+            <div class="item">
+                <span class="item-number">5</span>
+                <h3 class="item-title">Operationalise Data Quality</h3>
+                <p class="item-description">Data quality is not a project; it is a routine. Assign business owners and quality rules to every critical field.</p>
+                <div class="detail-box">
+                    <strong>Rule:</strong> Every critical field must have a business owner and a quality rule.
+                </div>
+                <div class="value-split">
+                    <div class="human-loop">👤 Human: Defines Ownership/Policy</div>
+                    <div class="ai-value">🤖 AI: Monitors Data Quality</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Strategic Infographic: Strategic Process Architecture Review • 2025</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
