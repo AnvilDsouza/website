@@ -3,21 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Banking Engine: 8-Step Architecture</title>
+    <title>The Hybrid Bank: AI + Human Architecture</title>
     <style>
         :root {
-            /* Premium Dark Theme Palette */
-            --bg-body: #0f172a;
-            --bg-card: rgba(30, 41, 59, 0.7);
-            --bg-card-hover: rgba(51, 65, 85, 0.8);
-            --text-main: #f8fafc;
+            /* Dark Theme Variables */
+            --bg-body: #0b1120; /* Deep Navy */
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
-            --accent-blue: #38bdf8;
-            --accent-purple: #818cf8;
-            --accent-green: #34d399;
-            --accent-orange: #fbbf24;
-            --border: rgba(148, 163, 184, 0.1);
-            --glass-shine: rgba(255, 255, 255, 0.03);
+            
+            /* AI Colors (Teal/Green) */
+            --ai-bg: rgba(20, 184, 166, 0.1);
+            --ai-border: rgba(20, 184, 166, 0.3);
+            --ai-text: #2dd4bf;
+            
+            /* Human Colors (Blue/Indigo) */
+            --human-bg: rgba(99, 102, 241, 0.1);
+            --human-border: rgba(99, 102, 241, 0.3);
+            --human-text: #818cf8;
+
+            --border-color: rgba(255, 255, 255, 0.08);
         }
 
         * { box-sizing: border-box; }
@@ -25,375 +30,348 @@
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-body);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(129, 140, 248, 0.05) 0%, transparent 20%);
             color: var(--text-main);
             margin: 0;
             padding: 40px 20px;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         /* --- Header --- */
         header {
             text-align: center;
-            margin-bottom: 60px;
-            position: relative;
+            margin-bottom: 50px;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 800;
-            margin: 0 0 16px 0;
-            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            margin: 0 0 10px 0;
+            background: linear-gradient(to right, #fff, #94a3b8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
             max-width: 700px;
             margin: 0 auto;
-            font-weight: 300;
         }
 
-        .subtitle strong { color: var(--accent-blue); font-weight: 600; }
-
-        /* --- Grid Layouts --- */
-        .grid-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        /* --- Legend --- */
+        .legend {
+            display: flex;
+            justify-content: center;
             gap: 24px;
-            margin-bottom: 40px;
+            margin-top: 24px;
+            font-size: 0.9rem;
+        }
+        .legend span { display: flex; align-items: center; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot.ai { background: var(--ai-text); box-shadow: 0 0 10px var(--ai-text); }
+        .dot.human { background: var(--human-text); box-shadow: 0 0 10px var(--human-text); }
+
+        /* --- Grid Layout --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 24px;
         }
 
-        .section-label {
-            grid-column: 1 / -1;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent-purple);
-            margin-bottom: 10px;
-            margin-top: 20px;
-            font-weight: 700;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
-        }
-
-        /* --- The Card Design --- */
+        /* --- Card Styles --- */
         .card {
             background: var(--bg-card);
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 24px;
-            backdrop-filter: blur(12px);
-            transition: all 0.3s ease;
-            position: relative;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            transition: transform 0.2s;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            background: var(--bg-card-hover);
-            border-color: rgba(255,255,255,0.1);
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.2);
         }
 
-        /* Top shine effect */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, var(--glass-shine) 0%, transparent 100%);
-            pointer-events: none;
-        }
-
+        /* Card Header */
         .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(0,0,0,0.2);
         }
 
-        .step-badge {
+        .step-meta {
             font-size: 0.75rem;
-            background: rgba(255,255,255,0.05);
-            padding: 4px 8px;
-            border-radius: 6px;
-            color: var(--text-muted);
-            border: 1px solid var(--border);
-            font-family: monospace;
-        }
-
-        .icon { font-size: 1.8rem; }
-
-        h2 {
-            font-size: 1.25rem;
-            margin: 0 0 8px 0;
-            font-weight: 600;
-            color: #fff;
-        }
-
-        .purpose {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            min-height: 40px; /* alignment */
-        }
-
-        /* "Good Looks Like" Section */
-        .benchmark {
-            background: rgba(56, 189, 248, 0.1);
-            border-left: 3px solid var(--accent-blue);
-            padding: 12px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 20px;
-            margin-top: auto; /* Pushes to bottom if space allows */
-        }
-
-        .benchmark-label {
-            display: block;
-            font-size: 0.7rem;
-            color: var(--accent-blue);
-            font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            font-weight: 700;
             margin-bottom: 4px;
         }
 
-        .benchmark-text {
-            font-size: 0.9rem;
-            color: #e2e8f0;
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* Rule Code Snippet */
-        .rule-box {
-            background: #020617;
-            border: 1px dashed var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            color: var(--accent-green);
+        .context-text {
+            padding: 16px 24px 0;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        /* --- Split View: AI vs Human --- */
+        .split-view {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .layer {
+            padding: 16px 24px;
+            font-size: 0.9rem;
             position: relative;
         }
 
-        .rule-label {
-            position: absolute;
-            top: -8px;
-            right: 10px;
-            background: var(--bg-body);
-            color: var(--text-muted);
-            font-size: 0.65rem;
-            padding: 0 6px;
+        /* AI Layer Styling */
+        .layer.ai {
+            background: linear-gradient(90deg, var(--ai-bg) 0%, transparent 100%);
+            border-left: 3px solid var(--ai-text);
+        }
+
+        /* Human Layer Styling */
+        .layer.human {
+            background: linear-gradient(90deg, var(--human-bg) 0%, transparent 100%);
+            border-left: 3px solid var(--human-text);
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .layer-label {
+            font-size: 0.7rem;
             text-transform: uppercase;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-        }
-
-        /* --- Summary Footer --- */
-        .summary-box {
-            margin-top: 60px;
-            background: linear-gradient(to right, rgba(129, 140, 248, 0.1), rgba(56, 189, 248, 0.05));
-            border: 1px solid rgba(129, 140, 248, 0.2);
-            border-radius: 16px;
-            padding: 30px;
+            letter-spacing: 1px;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 6px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-around;
-            text-align: center;
+            justify-content: space-between;
         }
 
-        .stat-item h3 { margin: 0; font-size: 2rem; color: #fff; }
-        .stat-item p { margin: 5px 0 0 0; color: var(--text-muted); font-size: 0.9rem; }
+        .layer.ai .layer-label { color: var(--ai-text); }
+        .layer.human .layer-label { color: var(--human-text); }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .summary-box { flex-direction: column; }
+        .layer-content {
+            color: #e2e8f0;
+        }
+
+        /* Embedded Rule Badge */
+        .rule-badge {
+            display: inline-block;
+            margin-top: 8px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .layer.ai .rule-badge { color: var(--ai-text); }
+        .layer.human .rule-badge { color: var(--human-text); }
+
+        /* --- Footer --- */
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-
     <header>
-        <h1>The Banking Engine</h1>
-        <p class="subtitle">A first-principles breakdown of the 8 critical systems that power modern banking. <br><strong>From Identity to Audit.</strong></p>
+        <h1>The Hybrid Banking Model</h1>
+        <p class="subtitle">A step-by-step breakdown of how <strong>AI Speed</strong> and <strong>Human Insight</strong> collaborate to run a modern bank.</p>
+        
+        <div class="legend">
+            <span><div class="dot ai"></div> <strong>AI Value:</strong> Scale, Speed, Data</span>
+            <span><div class="dot human"></div> <strong>Human Loop:</strong> Judgment, Trust, Exceptions</span>
+        </div>
     </header>
 
-    <div class="grid-section">
-        <div class="section-label">Phase 1: Foundation & Setup</div>
+    <div class="grid">
 
         <div class="card">
             <div class="card-header">
-                <span class="step-badge">STEP 01</span>
-                <span class="icon">🆔</span>
+                <div class="step-meta">STEP 01</div>
+                <h2 class="card-title">Establish Identity 🆔</h2>
             </div>
-            <h2>Establish Identity</h2>
-            <p class="purpose">Confirms who the client is. No service is safe without a verified "Single Source of Truth."</p>
-            <div class="benchmark">
-                <span class="benchmark-label">Good looks like</span>
-                <span class="benchmark-text">One client, one identity, consistent across all channels.</span>
-            </div>
-            <div class="rule-box">
-                <span class="rule-label">Logic</span>
-                if (profile_match > 90%) <br> return "Escalate Merge";
+            <p class="context-text">Confirms who the client is. No service is safe without a verified identity.</p>
+            <div class="split-view">
+                <div class="layer ai">
+                    <span class="layer-label">🤖 AI: Validation & Matching</span>
+                    <div class="layer-content">Instantly verifies documents via OCR and biometrics. Detects duplicates across millions of records.</div>
+                </div>
+                <div class="layer human">
+                    <span class="layer-label">👤 Human: Conflict Resolution</span>
+                    <div class="layer-content">Decides on "grey zone" matches or data conflicts.</div>
+                    <div class="rule-badge">Rule: Escalate merge if 90% attributes match</div>
+                </div>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <span class="step-badge">STEP 02</span>
-                <span class="icon">⚖️</span>
+                <div class="step-meta">STEP 02</div>
+                <h2 class="card-title">Understand Risk ⚖️</h2>
             </div>
-            <h2>Understand Risk</h2>
-            <p class="purpose">Evaluates client danger level. Risk determines limits, pricing, and monitoring intensity.</p>
-            <div class="benchmark">
-                <span class="benchmark-label">Good looks like</span>
-                <span class="benchmark-text">Real-time dynamic updates, not static annual reviews.</span>
-            </div>
-            <div class="rule-box">
-                <span class="rule-label">Logic</span>
-                if (risk_score > 70) <br> trigger "Enhanced Due Diligence";
+            <p class="context-text">Evaluates danger level. Risk determines limits, pricing, and monitoring.</p>
+            <div class="split-view">
+                <div class="layer ai">
+                    <span class="layer-label">🤖 AI: Real-Time Scoring</span>
+                    <div class="layer-content">Calculates risk scores dynamically using transaction history and external data feeds.</div>
+                    <div class="rule-badge">Rule: Auto-flag if Risk Score > 70</div>
+                </div>
+                <div class="layer human">
+                    <span class="layer-label">👤 Human: Enhanced Due Diligence</span>
+                    <div class="layer-content">Conducts deep-dive investigations on high-risk profiles and defines risk appetite.</div>
+                </div>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <span class="step-badge">STEP 03</span>
-                <span class="icon">📦</span>
+                <div class="step-meta">STEP 03</div>
+                <h2 class="card-title">Configure Products 📦</h2>
             </div>
-            <h2>Configure Products</h2>
-            <p class="purpose">The revenue engine. Matches client needs to products (loans, cards, deposits).</p>
-            <div class="benchmark">
-                <span class="benchmark-label">Good looks like</span>
-                <span class="benchmark-text">Transparent pricing and a clear, modular product catalogue.</span>
-            </div>
-            <div class="rule-box">
-                <span class="rule-label">Logic</span>
-                if (income < threshold) <br> exclude "Premium_Card";
+            <p class="context-text">Matches client needs with products (loans, cards) to generate revenue.</p>
+            <div class="split-view">
+                <div class="layer ai">
+                    <span class="layer-label">🤖 AI: Recommendation Engine</span>
+                    <div class="layer-content">Analyzes spending to suggest the "Next Best Product" or optimize pricing tiers.</div>
+                    <div class="rule-badge">Rule: Exclude premium cards if Income < X</div>
+                </div>
+                <div class="layer human">
+                    <span class="layer-label">👤 Human: Complex Structuring</span>
+                    <div class="layer-content">Designs bespoke solutions for wealth clients and ensures ethical sales practices.</div>
+                </div>
             </div>
         </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="step-meta">STEP 04</div>
+                <h2 class="card-title">Take or Deploy Money 💰</h2>
+            </div>
+            <p class="context-text">Manages the balance sheet via deposits and loans.</p>
+            <div class="split-view">
+                <div class="layer ai">
+                    <span class="layer-label">🤖 AI: Credit Decisioning</span>
+                    <div class="layer-content">Auto-approves low-value loans and forecasts liquidity needs instantly.</div>
+                </div>
+                <div class="layer human">
+                    <span class="layer-label">👤 Human: Large Exposure Approval</span>
+                    <div class="layer-content">Approves high-value loans or exceptions to policy.</div>
+                    <div class="rule-badge">Rule: Manual sign-off if LTV > 80%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="step-meta">STEP 05</div>
+                <h2 class="card-title">Execute Transactions ⚡</h2>
+            </div>
+            <p class="context-text">Processes payments and transfers. Accuracy determines client trust.</p>
+            <div class="split-view">
+                <div class="layer ai">
+                    <span class="layer-label">🤖 AI: Fraud Detection</span>
+                    <div class="layer-content">Screens transactions in milliseconds for fraud and sanctions violations.</div>
+                </div>
+                <div class="layer human">
+                    <span class="layer-label">👤 Human: 2nd Factor Auth</span>
+                    <div class="layer-content">Verifies high-value or suspicious transfers before release.</div>
+                    <div class="rule-badge">Rule: 2FA required for > ₹10L</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="step-meta">STEP 06</div>
+                <h2 class="card-title">Maintain Relationship 🤝</h2>
+            </div>
+            <p class="context-text">Handles queries and advice. Relationships drive Lifetime Value.</p>
+            <div class="split-view">
+                <div class="layer ai">
+                    <span class="layer-label">🤖 AI: Sentiment & Assist</span>
+                    <div class="layer-content">Resolves Tier-1 queries via chat and drafts responses for advisors.</div>
+                </div>
+                <div class="layer human">
+                    <span class="layer-label">👤 Human: Empathy & Trust</span>
+                    <div class="layer-content">Manages complex problems and emotional client situations.</div>
+                    <div class="rule-badge">Rule: Log stated intent for every call</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="step-meta">STEP 07</div>
+                <h2 class="card-title">Monitor Behavior 📡</h2>
+            </div>
+            <p class="context-text">Watches for unusual patterns, AML issues, or credit deterioration.</p>
+            <div class="split-view">
+                <div class="layer ai">
+                    <span class="layer-label">🤖 AI: Pattern Recognition</span>
+                    <div class="layer-content">Monitors 24/7 to find "needle in a haystack" anomalies without fatigue.</div>
+                    <div class="rule-badge">Rule: Alert on 3 anomalies in 24h</div>
+                </div>
+                <div class="layer human">
+                    <span class="layer-label">👤 Human: Investigation</span>
+                    <div class="layer-content">Contextualizes alerts to determine if they are fraud or just unusual behavior.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="step-meta">STEP 08</div>
+                <h2 class="card-title">Records & Reporting 🗄️</h2>
+            </div>
+            <p class="context-text">Keeps accurate books and audit trails for regulatory scrutiny.</p>
+            <div class="split-view">
+                <div class="layer ai">
+                    <span class="layer-label">🤖 AI: Auto-Documentation</span>
+                    <div class="layer-content">Generates audit trails and regulatory report drafts automatically.</div>
+                </div>
+                <div class="layer human">
+                    <span class="layer-label">👤 Human: Accountability</span>
+                    <div class="layer-content">Provides final sign-off and ensures reason codes are interpretable.</div>
+                    <div class="rule-badge">Rule: Store human-readable reason codes</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="grid-section">
-        <div class="section-label">Phase 2: Execution & Growth</div>
-
-        <div class="card">
-            <div class="card-header">
-                <span class="step-badge">STEP 04</span>
-                <span class="icon">💰</span>
-            </div>
-            <h2>Take or Deploy Money</h2>
-            <p class="purpose">Managing the balance sheet. Accepting deposits (liability) and granting loans (assets).</p>
-            <div class="benchmark">
-                <span class="benchmark-label">Good looks like</span>
-                <span class="benchmark-text">Optimized balance between risk appetite and return.</span>
-            </div>
-            <div class="rule-box">
-                <span class="rule-label">Logic</span>
-                if (LTV > 80%) <br> require "Manual_Approval";
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <span class="step-badge">STEP 05</span>
-                <span class="icon">⚡</span>
-            </div>
-            <h2>Execute Transactions</h2>
-            <p class="purpose">Processing payments and transfers. This is where clients judge accuracy and speed.</p>
-            <div class="benchmark">
-                <span class="benchmark-label">Good looks like</span>
-                <span class="benchmark-text">Near-perfect STP (Straight-Through Processing).</span>
-            </div>
-            <div class="rule-box">
-                <span class="rule-label">Logic</span>
-                if (amount > 1000000) <br> require "2FA_Check";
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <span class="step-badge">STEP 06</span>
-                <span class="icon">🤝</span>
-            </div>
-            <h2>Maintain Relationship</h2>
-            <p class="purpose">Service, advice, and communication. Stable relationships drive Lifetime Value (LTV).</p>
-            <div class="benchmark">
-                <span class="benchmark-label">Good looks like</span>
-                <span class="benchmark-text">Context-aware service; the client never answers the same question twice.</span>
-            </div>
-            <div class="rule-box">
-                <span class="rule-label">Logic</span>
-                log_intent(client_call); <br> // Mandatory logging
-            </div>
-        </div>
-    </div>
-
-    <div class="grid-section">
-        <div class="section-label">Phase 3: Safety & Memory</div>
-
-        <div class="card">
-            <div class="card-header">
-                <span class="step-badge">STEP 07</span>
-                <span class="icon">📡</span>
-            </div>
-            <h2>Monitor Behavior</h2>
-            <p class="purpose">Continuous watch for unusual patterns, fraud, or emerging credit issues.</p>
-            <div class="benchmark">
-                <span class="benchmark-label">Good looks like</span>
-                <span class="benchmark-text">High-fidelity alerts that are meaningful, not just "noise."</span>
-            </div>
-            <div class="rule-box">
-                <span class="rule-label">Logic</span>
-                if (anomalies_24h >= 3) <br> status = "Under_Review";
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <span class="step-badge">STEP 08</span>
-                <span class="icon">🗄️</span>
-            </div>
-            <h2>Records & Reporting</h2>
-            <p class="purpose">Keeps audit trails and regulatory reports. Essential for operating under scrutiny.</p>
-            <div class="benchmark">
-                <span class="benchmark-label">Good looks like</span>
-                <span class="benchmark-text">Clean data, fully reconciled accounts, and traceable decisions.</span>
-            </div>
-            <div class="rule-box">
-                <span class="rule-label">Logic</span>
-                save_decision(reason_code); <br> // Must be human-readable
-            </div>
-        </div>
-    </div>
-
-    <div class="summary-box">
-        <div class="stat-item">
-            <h3>Identity</h3>
-            <p>The foundation of safety</p>
-        </div>
-        <div class="stat-item">
-            <h3>Execution</h3>
-            <p>The driver of trust</p>
-        </div>
-        <div class="stat-item">
-            <h3>Records</h3>
-            <p>The license to operate</p>
-        </div>
-    </div>
-
+    <footer>
+        <p>Strategic Infographic: The Modern Banking Operating System • 2025</p>
+    </footer>
 </div>
 
 </body>
