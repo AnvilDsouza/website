@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Decision Stack: BFSI Architecture</title>
+    <style>
+        /* NEW Palette Variables */
+        :root {
+            --bg-body: #f7f9fc; /* Off-White Background */
+            --bg-stack: #ffffff; /* White Stack Container */
+            --bg-level: #fcfdff; /* Lightest tint for levels */
+            --text-main: #3D4A55; /* Charcoal for main text */
+            --text-muted: #556070; /* Slate/muted for descriptions */
+            --border-color: #E6ECF2; /* Light Border */
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+            /* Primitive Colors (Derived from Palette) */
+            --p-identity: #499FA4;     /* Teal */
+            --p-risk: #E9BC8B;         /* Tangerine */
+            --p-eligibility: #8B949F; /* Slate derivative */
+            --p-entitlement: #3D4A55; /* Charcoal derivative */
+            --p-escalation: #EF6F6C; /* Soft Red for escalation (contrast to palette) */
+
+            /* Level Accent Colors (Using Palette Tints) */
+            --level5-accent: var(--p-identity); /* Teal */
+            --level4-accent: #E9BC8B; /* Tangerine */
+            --level3-accent: #3D4A55; /* Charcoal */
+            --level2-accent: #8B949F; /* Slate */
+            --level1-accent: var(--text-main);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 50px 20px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* --- Header --- */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 0 8px 0;
+            color: var(--text-main);
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- Stack Container --- */
+        .stack-container {
+            display: flex;
+            flex-direction: column-reverse; /* Primitives at the bottom */
+            gap: 12px;
+            padding: 25px;
+            background: var(--bg-stack);
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Informative image of the decision stack */
+        
+        /* --- Level (Layer) Styles --- */
+        .level {
+            background: var(--bg-level);
+            border-radius: 10px;
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .level:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .level-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .level-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            color: var(--bg-body);
+            background: var(--level1-accent);
+        }
+
+        .level-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        /* --- Primitives Visualisation --- */
+        .primitives-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .primitive-pill {
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--bg-body);
+            text-align: center;
+            flex-grow: 1;
+            min-width: 90px;
+            transition: all 0.2s ease;
+        }
+
+        /* Primitive Pill Colors */
+        .p-id { background-color: var(--p-identity); }
+        .p-risk { background-color: var(--p-risk); }
+        .p-eligibility { background-color: var(--p-eligibility); color: var(--text-main);}
+        .p-entitlement { background-color: var(--p-entitlement); }
+        .p-escalation { background-color: var(--p-escalation); }
+
+        /* Level Specific Styles */
+        #level5 .level-title { color: var(--level5-accent); }
+        #level5 .level-tag { background: var(--level5-accent); }
+
+        #level4 .level-title { color: var(--level4-accent); }
+        #level4 .level-tag { background: var(--level4-accent); }
+
+        #level3 .level-title { color: var(--level3-accent); }
+        #level3 .level-tag { background: var(--level3-accent); }
+
+        #level2 .level-title { color: var(--level2-accent); }
+        #level2 .level-tag { background: var(--level2-accent); }
+
+        #level1 { 
+            background: var(--bg-body); /* Base layer matches body BG */
+            border-color: var(--border-color);
+            border-top: 2px solid var(--p-identity); /* Strong line at the base */
+        }
+
+        .ai-value {
+            font-size: 0.8rem; 
+            color: var(--p-identity); 
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .human-loop {
+            font-size: 0.8rem; 
+            color: var(--p-risk); 
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* --- Architect's Commentary --- */
+        .commentary {
+            margin-top: 40px;
+            padding: 25px;
+            background: var(--bg-stack);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+        .commentary h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 0;
+        }
+        .commentary ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        .commentary li {
+            margin-bottom: 8px;
+        }
+        .commentary li strong {
+            color: var(--p-identity); /* Teal emphasis */
+            margin-right: 5px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .level-title { font-size: 1.1rem; }
+            .primitives-list { flex-direction: column; }
+            .primitive-pill { min-width: auto; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>The Decision Stack: BFSI Architecture</h1>
+        <p class="subtitle">The hierarchical model showing how 5 decision primitives build the entire financial institution's intelligence and systems.</p>
+    </header>
+
+    <div class="stack-container">
+        
+        <div class="level" id="level5">
+            <div class="level-header">
+                <h2 class="level-title">Level 5: Institutional Intelligence</h2>
+                <span class="level-tag">Top Layer / AI Synthesis</span>
+            </div>
+            <p class="level-description">Here, AI, Rules Engines, and Risk Engines operate *across* systems. Institutional behavior (Explainability, Consistency) emerges here.</p>
+            <div class="primitives-list">
+                <div class="primitive-pill p-id">AI for Identity Resolution</div>
+                <div class="primitive-pill p-risk">AI for Risk Prediction</div>
+                <div class="primitive-pill p-eligibility">Rules for Product Eligibility</div>
+            </div>
+            <div class="ai-value">
+                <b>AI Value:</b> Provides the synthesis, speed, and continuous learning for competitive advantage.
+            </div>
+        </div>
+
+        <div class="level" id="level4">
+            <div class="level-header">
+                <h2 class="level-title">Level 4: Decision Systems</h2>
+                <span class="level-tag">System Level</span>
+            </div>
+            <p class="level-description">Decision Flows interconnect to form major systems like Onboarding, Lending, or Surveillance. This level's stability depends entirely on the primitives below it.</p>
+        </div>
+
+        <div class="level" id="level3">
+            <div class="level-header">
+                <h2 class="level-title">Level 3: Decision Flows</h2>
+                <span class="level-tag">Process Level</span>
+            </div>
+            <p class="level-description">A sequence of dependent decisions forming a process (e.g., KYC Remediation). It is the architecture of the process, built from Decision Objects.</p>
+        </div>
+
+        <div class="level" id="level2">
+            <div class="level-header">
+                <h2 class="level-title">Level 2: Decision Objects</h2>
+                <span class="level-tag">Request Level</span>
+            </div>
+            <p class="level-description">A structured bundle of primitives used to evaluate a single request: "Execute this trade," "Approve this loan." This is what systems manipulate.</p>
+            <div class="human-loop">
+                <b>Example:</b> Credit Approval = Identity + Risk + Eligibility + Entitlement + Escalation Schema
+            </div>
+        </div>
+
+        <div class="level" id="level1">
+            <div class="level-header">
+                <h2 class="level-title">Level 1: Decision Primitives (Atomic Units)</h2>
+                <span class="level-tag">Foundation</span>
+            </div>
+            <p class="level-description">The non-negotiable, universally present building blocks of every decision. Consistency here ensures consistency everywhere.</p>
+            <div class="primitives-list">
+                <div class="primitive-pill p-id">Identity (Who)</div>
+                <div class="primitive-pill p-risk">Risk (How Risky)</div>
+                <div class="primitive-pill p-eligibility">Eligibility (Allowed?)</div>
+                <div class="primitive-pill p-entitlement">Entitlement (Permitted Scope)</div>
+                <div class="primitive-pill p-escalation">Escalation (When Unsure)</div>
+            </div>
+            <div class="human-loop">
+                <b>Human Loop:</b> Defines the governance, policy, and mandate (e.g., Risk Appetite) for each primitive's logic.
+            </div>
+        </div>
+
+    </div>
+
+    <div class="commentary">
+        <h3>Architect's Commentary: Value of Governing Primitives</h3>
+        <ul>
+            <li><strong>Prevents Failure:</strong> If <b>Identity</b> is unstable at Level 1, every system (Level 4) and every AI model (Level 5) built upon it will ultimately fail.</li>
+            <li><strong>Enables AI/ML:</strong> AI/ML operates at scale (Levels 2 & 5). It requires Level 1 primitives to be <b>Standardised</b> and <b>Explainable</b> to ensure model accuracy and compliance.</li>
+            <li><strong>Accountability:</strong> This model provides the clear language for leaders to mandate governance ("We need a single definition for <b>Risk</b> across all systems," not "We need a new risk system").</li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>
