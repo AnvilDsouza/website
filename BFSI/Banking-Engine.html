@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Banking Engine: 8-Step Architecture</title>
+    <style>
+        :root {
+            /* Premium Dark Theme Palette */
+            --bg-body: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --bg-card-hover: rgba(51, 65, 85, 0.8);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-purple: #818cf8;
+            --accent-green: #34d399;
+            --accent-orange: #fbbf24;
+            --border: rgba(148, 163, 184, 0.1);
+            --glass-shine: rgba(255, 255, 255, 0.03);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(129, 140, 248, 0.05) 0%, transparent 20%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* --- Header --- */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0 0 16px 0;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .subtitle strong { color: var(--accent-blue); font-weight: 600; }
+
+        /* --- Grid Layouts --- */
+        .grid-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .section-label {
+            grid-column: 1 / -1;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            margin-top: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        /* --- The Card Design --- */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: var(--bg-card-hover);
+            border-color: rgba(255,255,255,0.1);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+        }
+
+        /* Top shine effect */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, var(--glass-shine) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .step-badge {
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.05);
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            font-family: monospace;
+        }
+
+        .icon { font-size: 1.8rem; }
+
+        h2 {
+            font-size: 1.25rem;
+            margin: 0 0 8px 0;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .purpose {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            min-height: 40px; /* alignment */
+        }
+
+        /* "Good Looks Like" Section */
+        .benchmark {
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 3px solid var(--accent-blue);
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 20px;
+            margin-top: auto; /* Pushes to bottom if space allows */
+        }
+
+        .benchmark-label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--accent-blue);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .benchmark-text {
+            font-size: 0.9rem;
+            color: #e2e8f0;
+        }
+
+        /* Rule Code Snippet */
+        .rule-box {
+            background: #020617;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-green);
+            position: relative;
+        }
+
+        .rule-label {
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            background: var(--bg-body);
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            padding: 0 6px;
+            text-transform: uppercase;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        /* --- Summary Footer --- */
+        .summary-box {
+            margin-top: 60px;
+            background: linear-gradient(to right, rgba(129, 140, 248, 0.1), rgba(56, 189, 248, 0.05));
+            border: 1px solid rgba(129, 140, 248, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat-item h3 { margin: 0; font-size: 2rem; color: #fff; }
+        .stat-item p { margin: 5px 0 0 0; color: var(--text-muted); font-size: 0.9rem; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .summary-box { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>The Banking Engine</h1>
+        <p class="subtitle">A first-principles breakdown of the 8 critical systems that power modern banking. <br><strong>From Identity to Audit.</strong></p>
+    </header>
+
+    <div class="grid-section">
+        <div class="section-label">Phase 1: Foundation & Setup</div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="step-badge">STEP 01</span>
+                <span class="icon">🆔</span>
+            </div>
+            <h2>Establish Identity</h2>
+            <p class="purpose">Confirms who the client is. No service is safe without a verified "Single Source of Truth."</p>
+            <div class="benchmark">
+                <span class="benchmark-label">Good looks like</span>
+                <span class="benchmark-text">One client, one identity, consistent across all channels.</span>
+            </div>
+            <div class="rule-box">
+                <span class="rule-label">Logic</span>
+                if (profile_match > 90%) <br> return "Escalate Merge";
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="step-badge">STEP 02</span>
+                <span class="icon">⚖️</span>
+            </div>
+            <h2>Understand Risk</h2>
+            <p class="purpose">Evaluates client danger level. Risk determines limits, pricing, and monitoring intensity.</p>
+            <div class="benchmark">
+                <span class="benchmark-label">Good looks like</span>
+                <span class="benchmark-text">Real-time dynamic updates, not static annual reviews.</span>
+            </div>
+            <div class="rule-box">
+                <span class="rule-label">Logic</span>
+                if (risk_score > 70) <br> trigger "Enhanced Due Diligence";
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="step-badge">STEP 03</span>
+                <span class="icon">📦</span>
+            </div>
+            <h2>Configure Products</h2>
+            <p class="purpose">The revenue engine. Matches client needs to products (loans, cards, deposits).</p>
+            <div class="benchmark">
+                <span class="benchmark-label">Good looks like</span>
+                <span class="benchmark-text">Transparent pricing and a clear, modular product catalogue.</span>
+            </div>
+            <div class="rule-box">
+                <span class="rule-label">Logic</span>
+                if (income < threshold) <br> exclude "Premium_Card";
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-section">
+        <div class="section-label">Phase 2: Execution & Growth</div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="step-badge">STEP 04</span>
+                <span class="icon">💰</span>
+            </div>
+            <h2>Take or Deploy Money</h2>
+            <p class="purpose">Managing the balance sheet. Accepting deposits (liability) and granting loans (assets).</p>
+            <div class="benchmark">
+                <span class="benchmark-label">Good looks like</span>
+                <span class="benchmark-text">Optimized balance between risk appetite and return.</span>
+            </div>
+            <div class="rule-box">
+                <span class="rule-label">Logic</span>
+                if (LTV > 80%) <br> require "Manual_Approval";
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="step-badge">STEP 05</span>
+                <span class="icon">⚡</span>
+            </div>
+            <h2>Execute Transactions</h2>
+            <p class="purpose">Processing payments and transfers. This is where clients judge accuracy and speed.</p>
+            <div class="benchmark">
+                <span class="benchmark-label">Good looks like</span>
+                <span class="benchmark-text">Near-perfect STP (Straight-Through Processing).</span>
+            </div>
+            <div class="rule-box">
+                <span class="rule-label">Logic</span>
+                if (amount > 1000000) <br> require "2FA_Check";
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="step-badge">STEP 06</span>
+                <span class="icon">🤝</span>
+            </div>
+            <h2>Maintain Relationship</h2>
+            <p class="purpose">Service, advice, and communication. Stable relationships drive Lifetime Value (LTV).</p>
+            <div class="benchmark">
+                <span class="benchmark-label">Good looks like</span>
+                <span class="benchmark-text">Context-aware service; the client never answers the same question twice.</span>
+            </div>
+            <div class="rule-box">
+                <span class="rule-label">Logic</span>
+                log_intent(client_call); <br> // Mandatory logging
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-section">
+        <div class="section-label">Phase 3: Safety & Memory</div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="step-badge">STEP 07</span>
+                <span class="icon">📡</span>
+            </div>
+            <h2>Monitor Behavior</h2>
+            <p class="purpose">Continuous watch for unusual patterns, fraud, or emerging credit issues.</p>
+            <div class="benchmark">
+                <span class="benchmark-label">Good looks like</span>
+                <span class="benchmark-text">High-fidelity alerts that are meaningful, not just "noise."</span>
+            </div>
+            <div class="rule-box">
+                <span class="rule-label">Logic</span>
+                if (anomalies_24h >= 3) <br> status = "Under_Review";
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="step-badge">STEP 08</span>
+                <span class="icon">🗄️</span>
+            </div>
+            <h2>Records & Reporting</h2>
+            <p class="purpose">Keeps audit trails and regulatory reports. Essential for operating under scrutiny.</p>
+            <div class="benchmark">
+                <span class="benchmark-label">Good looks like</span>
+                <span class="benchmark-text">Clean data, fully reconciled accounts, and traceable decisions.</span>
+            </div>
+            <div class="rule-box">
+                <span class="rule-label">Logic</span>
+                save_decision(reason_code); <br> // Must be human-readable
+            </div>
+        </div>
+    </div>
+
+    <div class="summary-box">
+        <div class="stat-item">
+            <h3>Identity</h3>
+            <p>The foundation of safety</p>
+        </div>
+        <div class="stat-item">
+            <h3>Execution</h3>
+            <p>The driver of trust</p>
+        </div>
+        <div class="stat-item">
+            <h3>Records</h3>
+            <p>The license to operate</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
